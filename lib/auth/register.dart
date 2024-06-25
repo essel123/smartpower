@@ -190,7 +190,6 @@ class _RegisterState extends State<Register> {
                   TextFormField(
                     controller: controllerMeter_,
                     decoration: const InputDecoration(
-
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(5)),
                         borderSide: BorderSide(
@@ -341,7 +340,7 @@ class _RegisterState extends State<Register> {
               ),
             ));
 
-            controllerEmail_.clear();
-            controllerPassword_.clear();
+    controllerEmail_.clear();
+    controllerPassword_.clear();
   }
 }

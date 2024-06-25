@@ -18,7 +18,7 @@ class _AccountState extends State<Account> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blue,
+        backgroundColor: const Color.fromRGBO(10, 0, 82, 1),
         automaticallyImplyLeading: false,
         centerTitle: false,
         title: const Text(
@@ -26,6 +26,7 @@ class _AccountState extends State<Account> {
           style: TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.bold,
+            color: Colors.white,
           ),
         ),
         actions: [
@@ -33,47 +34,125 @@ class _AccountState extends State<Account> {
             padding: const EdgeInsets.all(8.0),
             child: InkWell(
               onTap: () {
-                auth.signOut().then(
-                      (value) => Navigator.of(context).push(
-                        PageRouteBuilder(
-                          pageBuilder:
-                              (context, animation, secondaryAnimation) =>
-                                  const OptionLog(),
-                          transitionsBuilder:
-                              (context, animation, secondaryAnimation, child) {
-                            const begin = Offset(0.0, 1.0);
-                            const end = Offset.zero;
-                            const curve = Curves.ease;
-
-                            final tween = Tween(begin: begin, end: end);
-                            final curvedAnimation = CurvedAnimation(
-                              parent: animation,
-                              curve: curve,
-                            );
-
-                            return SlideTransition(
-                              position: tween.animate(curvedAnimation),
-                              child: child,
-                            );
-                          },
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      titlePadding: const EdgeInsets.symmetric(
+                          horizontal: 50, vertical: 30),
+                      title: const Text(
+                        "Are you sure you want to logout ?",
+                        style: TextStyle(
+                          color: Color.fromRGBO(10, 0, 82, 1),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
                         ),
                       ),
+                      shadowColor: const Color.fromARGB(255, 93, 93, 93),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      actions: <Widget>[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            ElevatedButton(
+                              
+                              style: ButtonStyle(
+                                backgroundColor: const WidgetStatePropertyAll(
+                                  Color.fromRGBO(10, 0, 82, 1),
+                                ),
+                                shape: WidgetStatePropertyAll(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                ),
+                              ),
+                              onPressed: () {
+                                
+                                auth.signOut().then(
+                                      (value) => Navigator.of(context).push(
+                                        PageRouteBuilder(
+                                          pageBuilder:
+                                              (context, animation, secondaryAnimation) =>
+                                                  const OptionLog(),
+                                          transitionsBuilder:
+                                              (context, animation, secondaryAnimation, child) {
+                                            const begin = Offset(0.0, 1.0);
+                                            const end = Offset.zero;
+                                            const curve = Curves.ease;
+
+                                            final tween = Tween(begin: begin, end: end);
+                                            final curvedAnimation = CurvedAnimation(
+                                              parent: animation,
+                                              curve: curve,
+                                            );
+
+                                            return SlideTransition(
+                                              position: tween.animate(curvedAnimation),
+                                              child: child,
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                    );
+                               
+                              },
+                              child: const Text(
+                                "Yes",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ),
+                            ElevatedButton(
+                              style: ButtonStyle(
+                                backgroundColor: const WidgetStatePropertyAll(
+                                  Color.fromRGBO(10, 0, 82, 1),
+                                ),
+                                shape: WidgetStatePropertyAll(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                ),
+                              ),
+                              onPressed: () {
+                                 Navigator.pop(context);
+                              },
+                              child: const Text(
+                                "No",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
                     );
+                  },
+                );
+
               },
               child: const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Icon(
                     Icons.logout,
-                    color: Color.fromARGB(255, 33, 1, 107),
+                    color: Color.fromARGB(255, 255, 255, 255),
                   ),
-                  Text(
-                    "Sign Out",
-                    style: TextStyle(
-                      color: Color.fromARGB(255, 33, 1, 107),
-                      fontSize: 18,
-                    ),
-                  ),
+                  // Text(
+                  //   "Sign Out",
+                  //   style: TextStyle(
+                  //     color: Color.fromARGB(255, 255, 255, 255),
+                  //     fontSize: 14,
+                  //     fontWeight: FontWeight.bold,
+                  //   ),
+                  // ),
                 ],
               ),
             ),
@@ -87,7 +166,7 @@ class _AccountState extends State<Account> {
             Container(
               width: double.infinity,
               decoration: const BoxDecoration(
-                  color: Colors.blue,
+                  color: Color.fromRGBO(10, 0, 82, 1),
                   border: Border(
                       bottom: BorderSide(
                     width: 2,
@@ -117,7 +196,7 @@ class _AccountState extends State<Account> {
                         "Essel A. Apusiga",
                         style: TextStyle(
                           fontSize: 20,
-                          color: Colors.black,
+                          color: Color.fromARGB(255, 255, 255, 255),
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -127,13 +206,13 @@ class _AccountState extends State<Account> {
                           Icon(
                             Icons.location_on,
                             size: 16,
-                            color: Colors.black45,
+                            color: Color.fromARGB(115, 255, 255, 255),
                           ),
                           Text(
                             "Ghana,Tarkwa,western region",
                             style: TextStyle(
-                              fontSize: 12,
-                              color: Colors.black45,
+                              fontSize: 16,
+                              color: Color.fromARGB(115, 255, 255, 255),
                               fontWeight: FontWeight.bold,
                             ),
                           )

@@ -9,12 +9,12 @@ class Notifications extends StatelessWidget {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         actions: [
-         
-          IconButton(onPressed: (){
-             Navigator.pop(context);
-           
-          }, icon: const Icon(Icons.arrow_back_ios_outlined)),
-         const SizedBox(width: 340,),
+          IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: const Icon(Icons.arrow_back_ios_outlined)),
+          const Spacer(),
         ],
       ),
       body: const Center(

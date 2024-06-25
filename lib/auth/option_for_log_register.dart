@@ -13,12 +13,12 @@ class OptionLog extends StatefulWidget {
 
 class _OptionLogState extends State<OptionLog> {
   final PageController _controller = PageController();
+  var check = 1;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-       
       ),
       body: ListView(
         scrollDirection: Axis.vertical,
@@ -51,7 +51,7 @@ class _OptionLogState extends State<OptionLog> {
                                   "Get ready !!",
                                   style: TextStyle(
                                       fontSize: 35,
-                                      color: Colors.black,
+                                      color: Color.fromARGB(255, 10, 1, 59),
                                       fontWeight: FontWeight.bold),
                                 ),
                                 // const Text(
@@ -77,34 +77,62 @@ class _OptionLogState extends State<OptionLog> {
                           ),
                         ],
                       ),
-                      SizedBox(
-                        child: Container(
-                          alignment: Alignment.bottomCenter,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              GestureDetector(child: const Text("Skip")),
-                              SmoothPageIndicator(
-                                controller: _controller,
-                                count: 4,
-                              ),
-                              GestureDetector(
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20,right: 20),
+                        child: SizedBox(
+                          child: Container(
+                            alignment: Alignment.bottomCenter,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                
+                                GestureDetector(
                                   onTap: () {
-                                    
-                                    _controller.nextPage(
+                                    setState(() {
+                                      check--;
+                                    });
+                        
+                                    _controller.previousPage(
                                         duration:
                                             const Duration(milliseconds: 500),
                                         curve: Curves.ease);
                                   },
-                                  child: const Text("Next")),
-                            ],
+                                  child: check >= 2
+                                      ? const Icon(Icons.arrow_back_ios)
+                                      : const Text(""),
+                                ),
+                                SmoothPageIndicator(
+                                  controller: _controller,
+                                  count: 4,
+                                ),
+                                GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        if (check == 4) {
+                                        } else {
+                                          check++;
+                                        }
+                                      });
+                        
+                                      _controller.nextPage(
+                                          duration:
+                                              const Duration(milliseconds: 500),
+                                          curve: Curves.ease);
+                                    },
+                                    child: check < 4
+                                        ? const Icon(Icons.arrow_forward_ios)
+                                        : const Text("")),
+                              ],
+                            ),
                           ),
                         ),
                       ),
                     ],
                   ),
                 ),
-                const SizedBox(height: 20,),
+                const SizedBox(
+                  height: 20,
+                ),
                 Padding(
                   padding: const EdgeInsets.only(top: 20),
 
@@ -129,15 +157,17 @@ class _OptionLogState extends State<OptionLog> {
                                       const begin = Offset(0.0, 1.0);
                                       const end = Offset.zero;
                                       const curve = Curves.ease;
-                    
-                                      final tween = Tween(begin: begin, end: end);
+
+                                      final tween =
+                                          Tween(begin: begin, end: end);
                                       final curvedAnimation = CurvedAnimation(
                                         parent: animation,
                                         curve: curve,
                                       );
-                    
+
                                       return SlideTransition(
-                                        position: tween.animate(curvedAnimation),
+                                        position:
+                                            tween.animate(curvedAnimation),
                                         child: child,
                                       );
                                     }));
@@ -181,15 +211,17 @@ class _OptionLogState extends State<OptionLog> {
                                       const begin = Offset(0.0, 1.0);
                                       const end = Offset.zero;
                                       const curve = Curves.ease;
-                    
-                                      final tween = Tween(begin: begin, end: end);
+
+                                      final tween =
+                                          Tween(begin: begin, end: end);
                                       final curvedAnimation = CurvedAnimation(
                                         parent: animation,
                                         curve: curve,
                                       );
-                    
+
                                       return SlideTransition(
-                                        position: tween.animate(curvedAnimation),
+                                        position:
+                                            tween.animate(curvedAnimation),
                                         child: child,
                                       );
                                     }));
@@ -200,7 +232,7 @@ class _OptionLogState extends State<OptionLog> {
                                       borderRadius: BorderRadius.all(
                                         Radius.circular(8),
                                       ),
-                                    ), 
+                                    ),
                                   ),
                                   backgroundColor: WidgetStatePropertyAll(
                                     Color.fromARGB(255, 35, 2, 248),

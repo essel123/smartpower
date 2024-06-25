@@ -10,6 +10,7 @@ class WalletP extends StatefulWidget {
 
 class _WalletPState extends State<WalletP> {
   Color _color = Colors.blue;
+  var refresh = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,14 +52,14 @@ class _WalletPState extends State<WalletP> {
             child: Row(
               children: [
                 PaymentsWay(
-                  color: Color.fromARGB(255, 45, 0, 207),
+                  color:  Color.fromRGBO(10, 0, 82, 1),
                 ),
-                PaymentsWay(
-                  color: Color.fromARGB(255, 175, 242, 6),
-                ),
-                PaymentsWay(
-                  color: Color.fromARGB(255, 1, 96, 64),
-                )
+                // PaymentsWay(
+                //   color: Color.fromARGB(255, 175, 242, 6),
+                // ),
+                // PaymentsWay(
+                //   color: Color.fromARGB(255, 1, 96, 64),
+                // )
               ],
             ),
           ),
@@ -69,8 +70,8 @@ class _WalletPState extends State<WalletP> {
               child: const Text(
                 "Transactions",
                 style: TextStyle(
-                  fontSize: 28,
-                  color: Colors.black,
+                  fontSize: 30,
+                  color: Color.fromARGB(255, 9, 0, 49),
                   fontWeight: FontWeight.bold,
                 ),
               )),
@@ -78,28 +79,33 @@ class _WalletPState extends State<WalletP> {
             children: [
               Trans(
                 image: "images/momo.png",
-                number: "0532911103",
-                time: "5:30 PM",
+                number: "059456789",
+                amount: "600",
+                date: " 28-02-24 12:30 AM",
               ),
               Trans(
                 image: "images/momo.png",
                 number: "0532911103",
-                time: "5:30 PM",
+                amount: "500",
+                date: " 23-02-24 12:30 AM",
+              ),
+              Trans(
+                image: "images/momo.png",
+                number: "056567893",
+                amount: "240",
+                date: " 23-02-24 12:30 AM",
               ),
               Trans(
                 image: "images/momo.png",
                 number: "0532911103",
-                time: "5:30 PM",
+                amount: "100",
+                date: " 22-01-24 01:00 PM",
               ),
               Trans(
                 image: "images/momo.png",
                 number: "0532911103",
-                time: "5:30 PM",
-              ),
-              Trans(
-                image: "images/momo.png",
-                number: "0532911103",
-                time: "5:30 PM",
+                amount: "300",
+                date: " 23-02-24 12:30 AM",
               ),
             ],
           )
@@ -116,14 +122,14 @@ class PaymentsWay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(left: 25),
-      width: 320,
+      margin: const EdgeInsets.only(left: 10),
+      width: 340,
       child: Center(
         child: Card(
           color: color,
           shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(
-            Radius.circular(30),
+            Radius.circular(15),
           )),
           child: const Padding(
             padding: EdgeInsets.all(15),

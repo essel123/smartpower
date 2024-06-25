@@ -4,12 +4,14 @@ import 'package:smartpower/pages/news_source.dart';
 class Trans extends StatelessWidget {
   final String image;
   final String number;
-  final String time;
+  final String date;
+  final String amount;
   const Trans(
       {super.key,
       required this.image,
       required this.number,
-      required this.time});
+      required this.amount,
+      required this.date});
 
   @override
   Widget build(BuildContext context) {
@@ -32,20 +34,34 @@ class Trans extends StatelessWidget {
             title: Text(
               "Sent via $number",
               style: const TextStyle(
-                  fontSize: 15, color: Color.fromARGB(255, 9, 0, 55)),
+                fontSize: 10,
+                color: Color.fromARGB(255, 9, 0, 55),
+              ),
             ),
             subtitle: Text(
-              time,
-              style: const TextStyle(fontSize: 15, color: Colors.black),
+              date,
+              style: const TextStyle(
+                fontSize: 12,
+                color: Colors.black,
+              ),
             ),
             trailing: Container(
               width: 70,
               height: 35,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(100),
-                color: const Color.fromARGB(255, 224, 184, 64).withOpacity(0.5),
+                borderRadius: BorderRadius.circular(999),
+                color: const Color.fromARGB(255, 8, 1, 74).withOpacity(0.4),
               ),
-              child: const Center(child: Text("Ghc 200")),
+              child: Center(
+                child: Text(
+                  "Ghc $amount",
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 8,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
             ),
           )),
     );
@@ -116,7 +132,7 @@ class News extends StatelessWidget {
                     ),
                   ),
                   height: 400,
-                  child:  Align(
+                  child: Align(
                     alignment: Alignment.bottomLeft,
                     child: ListTile(
                       title: Text(
@@ -146,20 +162,22 @@ class News extends StatelessWidget {
                   height: 50,
                   child: ElevatedButton(
                       style: const ButtonStyle(
-                          shape: WidgetStatePropertyAll(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(5),
-                              ),
+                        shape: WidgetStatePropertyAll(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(5),
                             ),
                           ),
-                          backgroundColor: WidgetStatePropertyAll(
-                              Color.fromARGB(255, 75, 0, 250))),
+                        ),
+                        backgroundColor: WidgetStatePropertyAll(
+                          Color.fromRGBO(10, 0, 82, 1),
+                        ),
+                      ),
                       onPressed: () {
                         Navigator.of(context).push(PageRouteBuilder(
                             pageBuilder:
                                 (context, animation, secondaryAnimation) =>
-                                     const NewsHome(   ),
+                                    const NewsHome(),
                             transitionsBuilder: (context, animation,
                                 secondaryAnimation, child) {
                               const begin = Offset(0.0, 1.0);

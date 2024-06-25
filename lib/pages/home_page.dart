@@ -10,9 +10,9 @@ class HomePage extends StatefulWidget {
 
 List time = [
   "2024-03-2 11PM",
- "2024-02-2 5PM",
+  "2024-02-2 5PM",
   "2024-02-25 1Am",
- "2024-01-22 12:30Pm", 
+  "2024-01-22 12:30Pm",
 ];
 List image = [
   "images/profile.jpg",
@@ -26,14 +26,15 @@ List title = [
   "Analytical study",
   "Power blackouts",
   "Dumsor",
-]; 
+];
 
 List subtitle = [
   "lorem ipson dola chew chaw 1",
   "lorem ipson dola chew chaw 2",
   "lorem ipson dola chew chaw 3",
- "lorem ipson dola chew chaw 4",
-]; 
+  "lorem ipson dola chew chaw 4",
+];
+
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
@@ -58,18 +59,20 @@ class _HomePageState extends State<HomePage> {
             width: 120,
           ),
         ],
-        backgroundColor: Colors.blue,
+        backgroundColor: const Color.fromRGBO(10, 0, 82, 1),
         elevation: 5,
       ),
       body: ListView.builder(
         scrollDirection: Axis.vertical,
         itemCount: image.length,
         itemBuilder: (context, index) {
-          if(index == 0)
-          {
-
-          }
-          return  News(image:image[index],time: time[index],subtitle: subtitle[index],title: title[index],);
+          if (index == 0) {}
+          return News(
+            image: image[index],
+            time: time[index],
+            subtitle: subtitle[index],
+            title: title[index],
+          );
         },
       ),
     );

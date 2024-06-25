@@ -155,7 +155,29 @@ class _LoginState extends State<Login> {
                     height: 50,
                     width: double.infinity,
                     child: ElevatedButton(
-                        onPressed: signIn,
+                      onPressed: () {
+                        Navigator.of(context).push(PageRouteBuilder(
+                            pageBuilder:
+                                (context, animation, secondaryAnimation) =>
+                                    const Home(),
+                            transitionsBuilder: (context, animation,
+                                secondaryAnimation, child) {
+                              const begin = Offset(0.0, 1.0);
+                              const end = Offset.zero;
+                              const curve = Curves.ease;
+
+                              final tween = Tween(begin: begin, end: end);
+                              final curvedAnimation = CurvedAnimation(
+                                parent: animation,
+                                curve: curve,
+                              );
+
+                              return SlideTransition(
+                                position: tween.animate(curvedAnimation),
+                                child: child,
+                              );
+                            }));
+                      },
                       // {
                       //   // if(formkey_.currentState!.validate())
                       //   // {

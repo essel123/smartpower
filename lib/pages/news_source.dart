@@ -4,7 +4,7 @@ import 'package:smartpower/pages/home_page.dart';
 String message = """
 I'm excited to introduce myself as a young and ambitious tech enthusiast, eager to learn and grow with your organization. With a strong foundation in software development, as an intermediate developer, I've honed my skills in delivering high-quality work, and I'm confident in my ability to make a positive impact. Looking for a dynamic environment where I can be mentored, trained, and coached to reach my full potential, I find myself in your organization as it can let me achieve all these, and will be happy to give my best to impact your organization. I'm a quick learner, a team player, and dedicated to delivering exceptional results. Thank you for considering my application. I look forward to hearing from you.
 """;
- HomePage homePage = const HomePage();
+HomePage homePage = const HomePage();
 
 TextStyle _textStyle = const TextStyle(
   fontSize: 18,
@@ -22,19 +22,19 @@ class NewsHome extends StatelessWidget {
   // final String time;
   // final String image;
   // final String message;
-  const NewsHome({super.key,
-  // required this.time,
-  // required this.image,
-  // required this.message,
+  const NewsHome({
+    super.key,
+    // required this.time,
+    // required this.image,
+    // required this.message,
   });
 
   @override
   Widget build(BuildContext context) {
-
-
     return Scaffold(
-       appBar: AppBar(
+      appBar: AppBar(
         automaticallyImplyLeading: false,
+       
         actions: [
           IconButton(
             onPressed: () {
@@ -42,9 +42,7 @@ class NewsHome extends StatelessWidget {
             },
             icon: const Icon(Icons.arrow_back_ios_outlined),
           ),
-          const SizedBox(
-            width: 320,
-          )
+          const Spacer()
         ],
       ),
       body: SizedBox(
@@ -73,7 +71,10 @@ class NewsHome extends StatelessWidget {
                     ),
                     subtitle: Row(
                       children: [
-                        const Icon(Icons.date_range_sharp,size: 15,),
+                        const Icon(
+                          Icons.date_range_sharp,
+                          size: 15,
+                        ),
                         Text(
                           "2024-03-05 11pm",
                           style: _textStyle1,
@@ -93,11 +94,14 @@ class NewsHome extends StatelessWidget {
                         )),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(10),
-                      child: Image.asset("images/2.jpg",fit: BoxFit.contain,),
+                      child: Image.asset(
+                        "images/2.jpg",
+                        fit: BoxFit.contain,
+                      ),
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 10,top: 5,right: 20),
+                    padding: const EdgeInsets.only(left: 10, top: 5, right: 20),
                     child: Container(
                       margin: const EdgeInsets.only(left: 20),
                       width: 350,

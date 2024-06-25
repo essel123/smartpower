@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 class EditProfile extends StatefulWidget {
   const EditProfile({super.key});
 
-
   @override
   State<EditProfile> createState() => _EditProfileState();
 }
@@ -39,9 +38,7 @@ class _EditProfileState extends State<EditProfile> {
             },
             icon: const Icon(Icons.arrow_back_ios_outlined),
           ),
-          const SizedBox(
-            width: 340,
-          )
+          const Spacer(),
         ],
       ),
       body: ListView(
@@ -182,7 +179,7 @@ class _EditProfileState extends State<EditProfile> {
                 ),
 
                 Padding(
-                  padding: const EdgeInsets.only(left: 30,right: 30),
+                  padding: const EdgeInsets.only(left: 30, right: 30),
                   child: SizedBox(
                     height: 50,
                     width: double.infinity,
