@@ -184,7 +184,86 @@ class _EditProfileState extends State<EditProfile> {
                     height: 50,
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              titlePadding: const EdgeInsets.symmetric(
+                                  horizontal: 50, vertical: 30),
+                              title: const Text(
+                                "Are you sure you want to update your details ?",
+                                style: TextStyle(
+                                  color: Color.fromRGBO(10, 0, 82, 1),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20,
+                                ),
+                              ),
+                              shadowColor:
+                                  const Color.fromARGB(255, 93, 93, 93),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              actions: <Widget>[
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    ElevatedButton(
+                                      style: ButtonStyle(
+                                        backgroundColor:
+                                            const WidgetStatePropertyAll(
+                                          Color.fromRGBO(10, 0, 82, 1),
+                                        ),
+                                        shape: WidgetStatePropertyAll(
+                                          RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(5),
+                                          ),
+                                        ),
+                                      ),
+                                      onPressed: () {},
+                                      child: const Text(
+                                        "Yes",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                          fontSize: 12,
+                                        ),
+                                      ),
+                                    ),
+                                    ElevatedButton(
+                                      style: ButtonStyle(
+                                        backgroundColor:
+                                            const WidgetStatePropertyAll(
+                                          Color.fromRGBO(10, 0, 82, 1),
+                                        ),
+                                        shape: WidgetStatePropertyAll(
+                                          RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(5),
+                                          ),
+                                        ),
+                                      ),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: const Text(
+                                        "No",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                          fontSize: 12,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            );
+                          },
+                        );
+                      },
                       style: const ButtonStyle(
                         shape: WidgetStatePropertyAll(
                           RoundedRectangleBorder(
@@ -194,7 +273,7 @@ class _EditProfileState extends State<EditProfile> {
                           ),
                         ),
                         backgroundColor: WidgetStatePropertyAll(
-                          Color.fromARGB(255, 35, 2, 248),
+                          Color.fromRGBO(10, 0, 82, 1),
                         ),
                         side: WidgetStatePropertyAll(BorderSide.none),
                       ),

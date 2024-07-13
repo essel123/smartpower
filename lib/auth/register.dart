@@ -67,6 +67,7 @@ class _RegisterState extends State<Register> {
                   style: TextStyle(
                     fontSize: 40,
                     fontWeight: FontWeight.w600,
+                    fontFamily: 'Rubik-medium',
                     color: Colors.black,
                   ),
                 ),
@@ -76,8 +77,9 @@ class _RegisterState extends State<Register> {
                 Text(
                   "Hello user , you have a grateful journey",
                   style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 26,
+                    fontWeight: FontWeight.w200,
+                    fontSize: 30,
+                    fontFamily: 'Rubik-Italic',
                     color: Colors.black,
                   ),
                 ),
@@ -243,7 +245,7 @@ class _RegisterState extends State<Register> {
                             ),
                           ),
                           backgroundColor: WidgetStatePropertyAll(
-                            Color.fromARGB(255, 35, 2, 248),
+                            Color.fromARGB(255, 8, 1, 74),
                           ),
                           side: WidgetStatePropertyAll(BorderSide.none)),
                       child: const Text(
@@ -263,43 +265,52 @@ class _RegisterState extends State<Register> {
                       children: [
                         const Text(
                           "Already have an account?",
-                          style: TextStyle(fontSize: 14),
+                          style: TextStyle(
+                            fontSize: 14,
+                          ),
                         ),
                         TextButton(
-                            onPressed: () {
-                              Navigator.of(context).push(
-                                PageRouteBuilder(
-                                  pageBuilder: (context, animation,
-                                          secondaryAnimation) =>
-                                      const Login(),
-                                  transitionsBuilder: (context, animation,
-                                      secondaryAnimation, child) {
-                                    const begin = Offset(0.0, 1.0);
-                                    const end = Offset.zero;
-                                    const curve = Curves.ease;
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              PageRouteBuilder(
+                                pageBuilder:
+                                    (context, animation, secondaryAnimation) =>
+                                        const Login(),
+                                transitionsBuilder: (context, animation,
+                                    secondaryAnimation, child) {
+                                  const begin = Offset(0.0, 1.0);
+                                  const end = Offset.zero;
+                                  const curve = Curves.ease;
 
-                                    final tween = Tween(begin: begin, end: end);
-                                    final curvedAnimation = CurvedAnimation(
-                                      parent: animation,
-                                      curve: curve,
-                                    );
+                                  final tween = Tween(begin: begin, end: end);
+                                  final curvedAnimation = CurvedAnimation(
+                                    parent: animation,
+                                    curve: curve,
+                                  );
 
-                                    return SlideTransition(
-                                      position: tween.animate(curvedAnimation),
-                                      child: child,
-                                    );
-                                  },
+                                  return SlideTransition(
+                                    position: tween.animate(curvedAnimation),
+                                    child: child,
+                                  );
+                                },
+                              ),
+                            );
+                          },
+                          child: Container(
+                            decoration: const BoxDecoration(
+                              border: Border(
+                                bottom: BorderSide(
+                                  width: 2,
+                                  color: Color.fromARGB(255, 8, 1, 74),
                                 ),
-                              );
-                            },
-                            child: Container(
-                                decoration: const BoxDecoration(
-                                  border: Border(
-                                      bottom: BorderSide(
-                                          width: 2, color: Colors.blue)),
-                                ),
-                                child: const Text("Sign in",
-                                    style: TextStyle(fontSize: 15)))),
+                              ),
+                            ),
+                            child: const Text(
+                              "Sign in",
+                              style: TextStyle(fontSize: 15),
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   )

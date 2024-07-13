@@ -1,5 +1,6 @@
 import 'package:smartpower/pages/alt_wallet.dart';
 import 'package:smartpower/pages/home_page.dart';
+import 'package:smartpower/pages/inquire.dart';
 import 'package:smartpower/pages/payment.dart';
 import 'package:smartpower/pages/charts_statistics.dart';
 import 'package:smartpower/pages/account.dart';
@@ -16,22 +17,16 @@ final List<Widget> screens = [
   const HomePage(),
   const WalletP(),
   const StatisticsCharts(),
-  const Account()
+  const SendMessage(),
+  const Account(),
 ];
 
 final PageStorageBucket bucket = PageStorageBucket();
-int selectedIndex = 0;
 
-Widget currentscrren = screens[selectedIndex];
-
+// Widget currentscrren = screens[selectedIndex];
 
 class _HomeState extends State<Home> {
-  
-
-
-
- 
-
+  int selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,17 +34,13 @@ class _HomeState extends State<Home> {
       body: screens[selectedIndex],
 
       bottomNavigationBar: Container(
-        color: const Color.fromARGB(255, 123, 105, 158),
+        color: Colors.transparent,
         child: BottomAppBar(
-          
-          shape: const CircularNotchedRectangle(),
+          // shape: const CircularNotchedRectangle(),
           elevation: 1,
-          
           notchMargin: 5,
-         
           padding: const EdgeInsets.all(0),
           child: SizedBox(
-           
             width: double.infinity,
             child: BottomNavigationBar(
               backgroundColor: Colors.transparent,
@@ -57,15 +48,30 @@ class _HomeState extends State<Home> {
               unselectedItemColor: Colors.grey,
               showUnselectedLabels: true,
               showSelectedLabels: true,
-              selectedItemColor: Colors.blue,
+              selectedItemColor: const Color.fromRGBO(10, 0, 82, 1),
               type: BottomNavigationBarType.fixed,
+              selectedLabelStyle: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
               elevation: 0,
               items: const [
                 BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-                BottomNavigationBarItem(icon: Icon(Icons.payment), label: "Wallet"),
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.leaderboard), label: "Chart"),
-                BottomNavigationBarItem(icon: Icon(Icons.person), label: "Account"),
+                    icon: Icon(Icons.payment), label: "Wallet"),
+                BottomNavigationBarItem(
+                    icon: Icon(
+                      Icons.leaderboard,
+                    ),
+                    label: "Chart"),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.message_outlined),
+                  label: "Inquire",
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.person),
+                  label: "Account",
+                ),
               ],
               onTap: (value) {
                 setState(() {
@@ -77,44 +83,74 @@ class _HomeState extends State<Home> {
         ),
       ),
 
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          setState(() {
-            Navigator.of(context).push(PageRouteBuilder(
-                pageBuilder: (context, animation, secondaryAnimation) =>
-                    const Pay(),
-                transitionsBuilder:
-                    (context, animation, secondaryAnimation, child) {
-                  const begin = Offset(0.0, 1.0);
-                  const end = Offset.zero;
-                  const curve = Curves.ease;
+      floatingActionButton: selectedIndex == 1
+          ? Padding(
+              padding: const EdgeInsets.only(bottom: 60),
+              child: SizedBox(
+                width: 100,
+                height: 40,
+                child: FloatingActionButton(
+                  onPressed: () {
+                    setState(() {
+                      Navigator.of(context).push(PageRouteBuilder(
+                          pageBuilder:
+                              (context, animation, secondaryAnimation) =>
+                                  const Pay(),
+                          transitionsBuilder:
+                              (context, animation, secondaryAnimation, child) {
+                            const begin = Offset(0.0, 1.0);
+                            const end = Offset.zero;
+                            const curve = Curves.ease;
 
-                  final tween = Tween(begin: begin, end: end);
-                  final curvedAnimation = CurvedAnimation(
-                    parent: animation,
-                    curve: curve,
-                  );
+                            final tween = Tween(begin: begin, end: end);
+                            final curvedAnimation = CurvedAnimation(
+                              parent: animation,
+                              curve: curve,
+                            );
 
-                  return SlideTransition(
-                    position: tween.animate(curvedAnimation),
-                    child: child,
-                  );
-                }));
-          });
-        },
-        backgroundColor: const Color.fromARGB(255, 18, 15, 182),
-        shape: const CircleBorder(),
+                            return SlideTransition(
+                              position: tween.animate(curvedAnimation),
+                              child: child,
+                            );
+                          }));
+                    });
+                  },
+                  backgroundColor: const Color.fromARGB(255, 1, 76, 16),
 
-        // Image.asset("images/transaction.png")
-        child: const Center(
-            child: Text(
-          "Pay",
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 20,
-          ),
-        )),
-      ),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5)),
+                  elevation: 10,
+
+                  splashColor: const Color.fromARGB(255, 9, 1, 79),
+                  focusColor: Colors.white,
+
+                  // Image.asset("images/transaction.png")
+                  child: const Center(
+                      child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.send_to_mobile,
+                        color: Colors.white,
+                      ),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Text(
+                        "Pay",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  )),
+                ),
+              ),
+            )
+          : const Text(""),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }

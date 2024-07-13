@@ -6,26 +6,18 @@ I'm excited to introduce myself as a young and ambitious tech enthusiast, eager 
 """;
 HomePage homePage = const HomePage();
 
-TextStyle _textStyle = const TextStyle(
-  fontSize: 18,
-  fontWeight: FontWeight.bold,
-  color: Color.fromARGB(255, 10, 1, 59),
-);
-
-TextStyle _textStyle1 = const TextStyle(
-  fontSize: 14,
-  fontWeight: FontWeight.bold,
-  color: Color.fromARGB(255, 10, 1, 59),
-);
-
 class NewsHome extends StatelessWidget {
   // final String time;
-  // final String image;
+  final String image;
+  final String title;
+  final String subtitle;
   // final String message;
   const NewsHome({
     super.key,
     // required this.time,
-    // required this.image,
+    required this.image,
+    required this.title,
+    required this.subtitle,
     // required this.message,
   });
 
@@ -34,7 +26,6 @@ class NewsHome extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-       
         actions: [
           IconButton(
             onPressed: () {
@@ -56,71 +47,196 @@ class NewsHome extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  ListTile(
-                    leading: const CircleAvatar(
-                      backgroundColor: Color.fromARGB(255, 3, 55, 98),
-                      radius: 30,
-                      child: CircleAvatar(
-                        radius: 25,
-                        backgroundImage: AssetImage("images/profile.jpg"),
-                      ),
-                    ),
-                    title: Text(
-                      "Smart Power",
-                      style: _textStyle,
-                    ),
-                    subtitle: Row(
+                  // ListTile(
+                  //   leading: const CircleAvatar(
+                  //     backgroundColor: Color.fromARGB(255, 3, 55, 98),
+                  //     radius: 30,
+                  //     child: CircleAvatar(
+                  //       radius: 25,
+                  //       backgroundImage: AssetImage("images/profile.jpg"),
+                  //     ),
+                  //   ),
+                  //   title: Text(
+                  //     "Smart Power",
+                  //     style: _textStyle,
+                  //   ),
+                  //   subtitle: Row(
+                  //     children: [
+                  //       const Icon(
+                  //         Icons.date_range_sharp,
+                  //         size: 15,
+                  //       ),
+                  //       Text(
+                  //         "2024-03-05 11pm",
+                  //         style: _textStyle1,
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
+
+                  Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 2, vertical: 5),
+                    child: Column(
                       children: [
-                        const Icon(
-                          Icons.date_range_sharp,
-                          size: 15,
+                        Card(
+                          elevation: 10,
+                          child: Container(
+                            width: double.infinity,
+                            height: 400,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.rectangle,
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(3),
+                              ),
+                              image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: AssetImage(
+                                  image,
+                                ),
+                              ),
+                            ),
+                            child: Container(
+                              color: Colors.black.withOpacity(0.3),
+                              child: Align(
+                                alignment: Alignment.bottomLeft,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: const Color.fromARGB(255, 0, 0, 0)
+                                        .withOpacity(0.5),
+                                    border: const Border(
+                                      bottom: BorderSide(color: Colors.amber),
+                                      top: BorderSide(color: Colors.amber),
+                                      left: BorderSide(color: Colors.amber),
+                                      right: BorderSide(color: Colors.amber),
+                                    ),
+                                  ),
+                                  width: double.infinity,
+                                  height: 100,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        title,
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                          fontFamily: 'Rubik-medium',
+                                        ),
+                                      ),
+                                      Text(
+                                        subtitle,
+                                        style: const TextStyle(
+                                            color: Color.fromARGB(
+                                                255, 209, 199, 199),
+                                            fontWeight: FontWeight.w400),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
                         ),
-                        Text(
-                          "2024-03-05 11pm",
-                          style: _textStyle1,
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        SizedBox(
+                          width: double.infinity,
+                          child: Card(
+                            elevation: 10,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(3)),
+                            child: Padding(
+                              padding: const EdgeInsets.all(12),
+                              child: Text(
+                                message,
+                                style: const TextStyle(
+                                    wordSpacing: 0,
+                                    fontSize: 16,
+                                    height: 1.5,
+                                    color: Colors.black,
+                                    fontFamily: 'Rubik-Regular'),
+                                textAlign: TextAlign.justify,
+                              ),
+                            ),
+                          ),
                         ),
                       ],
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    width: double.infinity,
-                    decoration: const BoxDecoration(
-                        shape: BoxShape.rectangle,
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(20),
-                        )),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: Image.asset(
-                        "images/2.jpg",
-                        fit: BoxFit.contain,
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 10, top: 5, right: 20),
-                    child: Container(
-                      margin: const EdgeInsets.only(left: 20),
-                      width: 350,
-                      child: Text(
-                        message,
-                        style: const TextStyle(
-                          wordSpacing: 1,
-                          fontSize: 16,
-                          height: 1.5,
-                          color: Colors.black,
-                        ),
-                        textAlign: TextAlign.justify,
-                      ),
                     ),
                   )
                 ],
               ),
             );
           },
+        ),
+      ),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: FloatingActionButton(
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5)),
+                  actions: [
+                    Column(
+                      children: [
+                        Form(
+                          child: TextFormField(
+                            maxLines: 5,
+                            decoration: const InputDecoration(
+                              hintText: "Drop your comment",
+                            ),
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            IconButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              icon: const Icon(
+                                Icons.cancel_outlined,
+                                size: 40,
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return const Center(
+                                      child: CircularProgressIndicator(),
+                                    );
+                                  },
+                                );
+                              },
+                              icon: const Icon(
+                                Icons.send_rounded,
+                                size: 40,
+                              ),
+                            )
+                          ],
+                        )
+                      ],
+                    )
+                  ],
+                );
+              },
+            );
+          },
+          elevation: 10,
+          shape: const CircleBorder(),
+          backgroundColor: const Color.fromARGB(255, 239, 236, 236),
+          child: const Icon(
+            Icons.message,
+            color: Color.fromARGB(255, 14, 1, 69),
+          ),
         ),
       ),
     );

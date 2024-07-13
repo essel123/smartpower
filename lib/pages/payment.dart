@@ -65,7 +65,7 @@ class _PayState extends State<Pay> {
                     decoration: const InputDecoration(
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(
-                            Radius.circular(12),
+                            Radius.circular(5),
                           ),
                         ),
                         label: Text("Phone")),
@@ -78,7 +78,7 @@ class _PayState extends State<Pay> {
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(
-                          Radius.circular(12),
+                          Radius.circular(5),
                         ),
                       ),
                       hintText: "Enter Amount",
@@ -92,54 +92,85 @@ class _PayState extends State<Pay> {
               height: 40,
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 50),
+              padding: const EdgeInsets.symmetric(horizontal: 40),
               child: SizedBox(
                 child: Column(
                   children: [
-                    ElevatedButton(
-                      onPressed: () {},
-                      style: const ButtonStyle(
-                          shape: WidgetStatePropertyAll(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(10),
+                    SizedBox(
+                      height: 50,
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          // showDatePicker(
+                          //   context: context,
+                          //   firstDate: DateTime(DateTime.may),
+                          //   lastDate: DateTime.now(),
+                          // );
+
+                          // showAboutDialog(
+                          //   context: context,
+                          //   children: List.generate(3, (index) => Text("data"),)
+                          // );
+
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            },
+                          );
+
+                          // Navigator.of(context).pop();
+                        },
+                        style: const ButtonStyle(
+                            shape: WidgetStatePropertyAll(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(5),
+                                ),
                               ),
                             ),
+                            backgroundColor: WidgetStatePropertyAll(
+                                Color.fromARGB(255, 42, 2, 107))),
+                        child: const Text(
+                          "Proceed to pay",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
                           ),
-                          backgroundColor: WidgetStatePropertyAll(
-                              Color.fromARGB(255, 42, 2, 107))),
-                      child: const Text(
-                        "Proceed to pay",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
                     const SizedBox(
                       height: 120,
                     ),
-                    const Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.lock,
-                          size: 14,
-                          color: Colors.black26,
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Text(
-                          "end-to-end encrypted",
-                          style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.black26,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ],
+                    InkWell(
+                      onTap: () {},
+                      hoverColor: Colors.transparent,
+                      onLongPress: () {},
+                      child: const Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.lock,
+                            size: 14,
+                            color: Colors.black26,
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                            "end-to-end encryption",
+                            style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.black26,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
                     )
                   ],
                 ),

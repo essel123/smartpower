@@ -57,6 +57,7 @@ class _LoginState extends State<Login> {
                     fontSize: 35,
                     fontWeight: FontWeight.w600,
                     color: Colors.black,
+                    fontFamily: 'Rubik-medium',
                   ),
                 ),
                 SizedBox(
@@ -68,6 +69,7 @@ class _LoginState extends State<Login> {
                     fontWeight: FontWeight.bold,
                     fontSize: 20,
                     color: Colors.black,
+                    fontFamily: 'Rubik-Regular'
                   ),
                 ),
                 SizedBox(
@@ -79,6 +81,8 @@ class _LoginState extends State<Login> {
                     fontWeight: FontWeight.bold,
                     fontSize: 19,
                     color: Colors.black,
+                    fontFamily: 'Rubik-Regular'
+                    
                   ),
                 )
               ],
@@ -156,6 +160,14 @@ class _LoginState extends State<Login> {
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          },
+                        );
                         Navigator.of(context).push(PageRouteBuilder(
                             pageBuilder:
                                 (context, animation, secondaryAnimation) =>
@@ -177,7 +189,10 @@ class _LoginState extends State<Login> {
                                 child: child,
                               );
                             }));
+
+                        // Navigator.of(context).pop();
                       },
+
                       // {
                       //   // if(formkey_.currentState!.validate())
                       //   // {
@@ -185,20 +200,26 @@ class _LoginState extends State<Login> {
                       //   // }
                       // },
                       style: const ButtonStyle(
-                          shape: WidgetStatePropertyAll(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(8),
-                              ),
+                        shape: WidgetStatePropertyAll(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(8),
                             ),
                           ),
-                          backgroundColor: WidgetStatePropertyAll(
-                            Color.fromARGB(255, 39, 1, 255),
-                          ),
-                          side: WidgetStatePropertyAll(BorderSide.none)),
+                        ),
+                        backgroundColor: WidgetStatePropertyAll(
+                          Color.fromARGB(255, 8, 1, 74),
+                        ),
+                        side: WidgetStatePropertyAll(
+                          BorderSide.none,
+                        ),
+                      ),
                       child: const Text(
                         "Sign In",
-                        style: TextStyle(color: Colors.white, fontSize: 20),
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                        ),
                       ),
                     ),
                   ),
@@ -216,37 +237,47 @@ class _LoginState extends State<Login> {
                           style: TextStyle(fontSize: 14),
                         ),
                         TextButton(
-                            onPressed: () {
-                              Navigator.of(context).push(PageRouteBuilder(
-                                  pageBuilder: (context, animation,
-                                          secondaryAnimation) =>
-                                      const Register(),
-                                  transitionsBuilder: (context, animation,
-                                      secondaryAnimation, child) {
-                                    const begin = Offset(0.0, 1.0);
-                                    const end = Offset.zero;
-                                    const curve = Curves.ease;
+                          onPressed: () {
+                            Navigator.of(context).push(PageRouteBuilder(
+                                pageBuilder:
+                                    (context, animation, secondaryAnimation) =>
+                                        const Register(),
+                                transitionsBuilder: (context, animation,
+                                    secondaryAnimation, child) {
+                                  const begin = Offset(0.0, 1.0);
+                                  const end = Offset.zero;
+                                  const curve = Curves.ease;
 
-                                    final tween = Tween(begin: begin, end: end);
-                                    final curvedAnimation = CurvedAnimation(
-                                      parent: animation,
-                                      curve: curve,
-                                    );
+                                  final tween = Tween(begin: begin, end: end);
+                                  final curvedAnimation = CurvedAnimation(
+                                    parent: animation,
+                                    curve: curve,
+                                  );
 
-                                    return SlideTransition(
-                                      position: tween.animate(curvedAnimation),
-                                      child: child,
-                                    );
-                                  }));
-                            },
-                            child: Container(
-                                decoration: const BoxDecoration(
-                                  border: Border(
-                                      bottom: BorderSide(
-                                          width: 2, color: Colors.blue)),
+                                  return SlideTransition(
+                                    position: tween.animate(curvedAnimation),
+                                    child: child,
+                                  );
+                                }));
+                          },
+                          child: Container(
+                            decoration: const BoxDecoration(
+                              border: Border(
+                                bottom: BorderSide(
+                                  width: 2,
+                                  color: Color.fromARGB(255, 8, 1, 74),
                                 ),
-                                child: const Text("Sign up",
-                                    style: TextStyle(fontSize: 15)))),
+                              ),
+                            ),
+                            child: const Text(
+                              "Sign up",
+                              style: TextStyle(
+                                fontSize: 15,
+                                color:  Color.fromARGB(255, 8, 1, 74)
+                              ),
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   )
