@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:smartpower/pages/widgets.dart';
 
 class WalletP extends StatefulWidget {
@@ -9,28 +10,49 @@ class WalletP extends StatefulWidget {
 }
 
 class _WalletPState extends State<WalletP> {
+  double? bill;
+  double? balance;
+  double? current;
+  double? voltage;
+  double? power;
+  String dateTime = DateFormat.Hm().format(DateTime.now());
+  String? date_;
+
+  // Format the time (24-hour format)
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: RefreshIndicator(
-        onRefresh: () async {},
+        onRefresh: () async {
+          setState(() {
+            dateTime = DateFormat.Hm().format(DateTime.now());
+            date_ = DateFormat.yMMMMd().format(DateTime.now());
+          });
+        },
         child: ListView(
           physics: const BouncingScrollPhysics(),
           children: [
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 20),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20),
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
-                 physics:  BouncingScrollPhysics(),
+                physics: const BouncingScrollPhysics(),
                 child: Row(
                   children: [
                     PaymentsWay(
-                      color: Color.fromRGBO(10, 0, 82, 1),
+                      color: const Color.fromRGBO(10, 0, 82, 1),
+                      bill: 1000,
+                      balance: 300,
+                      date: dateTime,
                     ),
-                    MeterReading(
+                    const MeterReading(
+                      current: 50,
+                      power: 230,
+                      voltage: 220,
                       color: Colors.black,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 10,
                     )
                   ],
@@ -44,11 +66,10 @@ class _WalletPState extends State<WalletP> {
                 child: const Text(
                   "Transactions",
                   style: TextStyle(
-                    fontSize: 25,
-                    color: Color.fromARGB(255, 9, 0, 49),
-                    fontWeight: FontWeight.bold,
-                     fontFamily: 'Rubik-Regular'
-                  ),
+                      fontSize: 25,
+                      color: Color.fromARGB(255, 9, 0, 49),
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Rubik-Regular'),
                 )),
             const Column(
               children: [
@@ -105,7 +126,16 @@ class _WalletPState extends State<WalletP> {
 
 class PaymentsWay extends StatelessWidget {
   final Color color;
-  const PaymentsWay({super.key, required this.color});
+  final double bill;
+  final double balance;
+  final String date;
+  const PaymentsWay({
+    super.key,
+    required this.color,
+    required this.bill,
+    required this.balance,
+    required this.date,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -161,14 +191,14 @@ class PaymentsWay extends StatelessWidget {
                   const SizedBox(
                     height: 15,
                   ),
-                  const Row(
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          const Text(
                             "Bill",
                             style: TextStyle(
                                 color: Colors.white60,
@@ -176,12 +206,12 @@ class PaymentsWay extends StatelessWidget {
                                 fontSize: 14,
                                 fontFamily: 'Rubik-medium'),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           Text(
-                            "GHC 12,000.00",
-                            style: TextStyle(
+                            "GHC $bill",
+                            style: const TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 18,
@@ -193,7 +223,7 @@ class PaymentsWay extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          const Text(
                             "Balance",
                             style: TextStyle(
                                 color: Colors.white60,
@@ -201,12 +231,12 @@ class PaymentsWay extends StatelessWidget {
                                 fontSize: 14,
                                 fontFamily: 'Rubik-medium'),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           Text(
-                            "GHC 1,000.00",
-                            style: TextStyle(
+                            "GHC $balance",
+                            style: const TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 18,
@@ -219,7 +249,7 @@ class PaymentsWay extends StatelessWidget {
                   const SizedBox(
                     height: 30,
                   ),
-                  const Row(
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       // Text(
@@ -229,14 +259,14 @@ class PaymentsWay extends StatelessWidget {
                       //     fontSize: 16,
                       //   ),
                       // ),
-                      CircleAvatar(
+                      const CircleAvatar(
                         radius: 8,
                         backgroundColor: Colors.green,
                       ),
-                      Spacer(),
+                      const Spacer(),
                       Text(
-                        "03/24",
-                        style: TextStyle(
+                        date,
+                        style: const TextStyle(
                             color: Color.fromARGB(255, 205, 203, 203),
                             fontSize: 16,
                             fontFamily: 'Rubik-Regular'),
@@ -258,7 +288,16 @@ class PaymentsWay extends StatelessWidget {
 
 class MeterReading extends StatelessWidget {
   final Color color;
-  const MeterReading({super.key, required this.color});
+  final double voltage;
+  final double current;
+  final double power;
+  const MeterReading({
+    super.key,
+    required this.color,
+    required this.current,
+    required this.voltage,
+    required this.power,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -305,11 +344,11 @@ class MeterReading extends StatelessWidget {
                 const SizedBox(
                   height: 15,
                 ),
-                const Column(
+                Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
+                    const Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Text(
@@ -338,38 +377,35 @@ class MeterReading extends StatelessWidget {
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Text(
-                          "120V",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14,
-                             fontFamily: 'Rubik-Italic'
-                          ),
+                          "$voltage",
+                          style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                              fontFamily: 'Rubik-Italic'),
                         ),
                         Text(
-                          "60A",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14,
-                             fontFamily: 'Rubik-Italic'
-                          ),
+                          "$current A",
+                          style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                              fontFamily: 'Rubik-Italic'),
                         ),
                         Text(
-                          "220KW/h",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14,
-                             fontFamily: 'Rubik-Italic'
-                          ),
+                          "$power KW/h",
+                          style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                              fontFamily: 'Rubik-Italic'),
                         ),
                       ],
                     )
@@ -392,10 +428,9 @@ class MeterReading extends StatelessWidget {
                     Text(
                       "03/24",
                       style: TextStyle(
-                        color: Color.fromARGB(255, 205, 203, 203),
-                        fontSize: 16,
-                         fontFamily: 'Rubik-Regular'
-                      ),
+                          color: Color.fromARGB(255, 205, 203, 203),
+                          fontSize: 16,
+                          fontFamily: 'Rubik-Regular'),
                     ),
                   ],
                 ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pay_with_paystack/pay_with_paystack.dart';
 
 class Pay extends StatefulWidget {
   const Pay({super.key});
@@ -13,12 +14,14 @@ class _PayState extends State<Pay> {
   Color textcolor = Colors.black;
 
   // ignore: non_constant_identifier_names
-  Widget value_widget = const Text("hii");
+  Widget value_widget = const Text("");
 
   @override
   Widget build(BuildContext context) {
     TextEditingController controlerPhone_ = TextEditingController();
+    TextEditingController amount = TextEditingController();
     controlerPhone_.text = "0532911103";
+    // double billamount =  double(amo);
 
     return Scaffold(
       appBar: AppBar(
@@ -74,6 +77,7 @@ class _PayState extends State<Pay> {
                     height: 30,
                   ),
                   TextFormField(
+                    controller: amount,
                     keyboardType: TextInputType.phone,
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(
@@ -112,16 +116,58 @@ class _PayState extends State<Pay> {
                           //   children: List.generate(3, (index) => Text("data"),)
                           // );
 
-                          showDialog(
-                            context: context,
-                            builder: (context) {
-                              return const Center(
-                                child: CircularProgressIndicator(),
-                              );
-                            },
-                          );
+                          // showDialog(
+                          //   context: context,
+                          //   builder: (context) {
+                          //     return const Center(
+                          //       child: CircularProgressIndicator(),
+                          //     );
+                          //   },
+                          // );
 
                           // Navigator.of(context).pop();
+
+                          final uniqueTransRef =
+                              PayWithPayStack().generateUuidV4();
+
+                          PayWithPayStack().now(
+                              context: context,
+                              secretKey:
+                                  "sk_test_597c203c9f905ab2780d550237d19e43faf4e86a",
+                              customerEmail: "abrahamessel156@gmail.com",
+                              reference: uniqueTransRef,
+                              currency: "GHS",
+                              amount: double.parse(amount.text),
+                              paymentChannel: ["mobile_money", "card"],
+                              metaData: {
+                                "custom_fields": [
+                                  {
+                                    "name": "Daniel Kabu Asare",
+                                    "phone": "$controlerPhone_"
+                                  }
+                                ]
+                              },
+                              transactionCompleted: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => AlertDialog(
+                                    title: const Text("Payment Successful"),
+                                    content: const Text(
+                                        "Your payment was successful!"),
+                                    actions: [
+                                      TextButton(
+                                        child: const Text("OK"),
+                                        onPressed: () {
+                                          Navigator.of(context)
+                                              .pop(); // Close the dialog
+                                        },
+                                      )
+                                    ],
+                                  ),
+                                );
+                              },
+                              transactionNotCompleted: () {},
+                              callbackUrl: '');
                         },
                         style: const ButtonStyle(
                             shape: WidgetStatePropertyAll(

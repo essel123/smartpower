@@ -20,7 +20,7 @@ class Trans extends StatelessWidget {
       child: Card(
           color: const Color.fromARGB(255, 231, 224, 224),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(10),
           ),
           child: ListTile(
             leading: CircleAvatar(
