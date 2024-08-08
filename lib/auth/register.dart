@@ -10,26 +10,35 @@ class Register extends StatefulWidget {
   State<Register> createState() => _RegisterState();
 }
 
-TextEditingController controllerFulname_ = TextEditingController();
-
-TextEditingController controllerEmail_ = TextEditingController();
-
-TextEditingController controllerPhone_ = TextEditingController();
-
-TextEditingController controllerUsername_ = TextEditingController();
-
-TextEditingController controllerMeter_ = TextEditingController();
-
-TextEditingController controllerPassword_ = TextEditingController();
-
-final AuthService auth = AuthService();
-
-// final  key_ =  GlobalKey<FormState> ();
-
 class _RegisterState extends State<Register> {
+  TextEditingController controllerFulname_ = TextEditingController();
+
+  TextEditingController controllerEmail_ = TextEditingController();
+
+  TextEditingController controllerPhone_ = TextEditingController();
+
+  TextEditingController controllerUsername_ = TextEditingController();
+
+  TextEditingController controllerMeter_ = TextEditingController();
+
+  TextEditingController controllerPassword_ = TextEditingController();
+
+  final key_ = GlobalKey<FormState>();
+
+  final AuthService auth = AuthService();
   @override
   void initState() {
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    controllerFulname_.dispose();
+    controllerEmail_.dispose();
+    controllerPhone_.dispose();
+    controllerMeter_.dispose();
+    controllerPassword_.dispose();
+    super.dispose();
   }
 
   @override
@@ -38,17 +47,7 @@ class _RegisterState extends State<Register> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Colors.white,
-        // actions: [
-        //   IconButton(
-        //     onPressed: () {
-        //       Navigator.pop(context);
-        //     },
-        //     icon: const Icon(Icons.arrow_back_ios_outlined),
-        //   ),
-        //   const SizedBox(
-        //     width: 320,
-        //   )
-        // ],
+        
       ),
       body: ListView(
         scrollDirection: Axis.vertical,
@@ -92,7 +91,7 @@ class _RegisterState extends State<Register> {
 
           //form for user login
           Form(
-            // key: key_,
+            key: key_,
             child: Padding(
               padding: const EdgeInsets.symmetric(
                 horizontal: 25,
@@ -103,6 +102,13 @@ class _RegisterState extends State<Register> {
                 children: [
                   //Full name
                   TextFormField(
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "name required*";
+                      }
+
+                      return null;
+                    },
                     controller: controllerFulname_,
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(
@@ -114,7 +120,8 @@ class _RegisterState extends State<Register> {
                             color: Colors.grey,
                             style: BorderStyle.none),
                       ),
-                      hintText: "FullName",
+                      hintText: "e.g Essel Apusiga",
+                      label: Text("Your name"),
                       contentPadding: EdgeInsets.symmetric(
                         horizontal: 10,
                       ),
@@ -128,6 +135,13 @@ class _RegisterState extends State<Register> {
                   TextFormField(
                     keyboardType: TextInputType.emailAddress,
                     controller: controllerEmail_,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "email required*";
+                      }
+
+                      return null;
+                    },
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(5)),
@@ -136,7 +150,8 @@ class _RegisterState extends State<Register> {
                             color: Colors.grey,
                             style: BorderStyle.none),
                       ),
-                      hintText: "abrahamessel156@gmail.com",
+                      hintText: "e.g abrahamessel156@gmail.com",
+                      label: Text("Email"),
                       contentPadding: EdgeInsets.symmetric(
                         horizontal: 10,
                       ),
@@ -149,27 +164,13 @@ class _RegisterState extends State<Register> {
                   TextFormField(
                     keyboardType: TextInputType.number,
                     controller: controllerPhone_,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(5)),
-                        borderSide: BorderSide(
-                            width: 3,
-                            color: Colors.grey,
-                            style: BorderStyle.none),
-                      ),
-                      hintText: "Phone",
-                      contentPadding: EdgeInsets.symmetric(
-                        horizontal: 10,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "phone required*";
+                      }
 
-                  //username
-                  TextFormField(
-                    controller: controllerUsername_,
+                      return null;
+                    },
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(5)),
@@ -178,7 +179,8 @@ class _RegisterState extends State<Register> {
                             color: Colors.grey,
                             style: BorderStyle.none),
                       ),
-                      hintText: "Create username e.g essel_",
+                      hintText: "(MOMO prefered) e.g 0532911103",
+                      label: Text("Phone"),
                       contentPadding: EdgeInsets.symmetric(
                         horizontal: 10,
                       ),
@@ -191,15 +193,25 @@ class _RegisterState extends State<Register> {
                   //Meter number
                   TextFormField(
                     controller: controllerMeter_,
+                    keyboardType: TextInputType.number,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "meter no. required*";
+                      }
+
+                      return null;
+                    },
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(5)),
                         borderSide: BorderSide(
-                            width: 3,
-                            color: Colors.grey,
-                            style: BorderStyle.none),
+                          width: 3,
+                          color: Colors.grey,
+                          style: BorderStyle.none,
+                        ),
                       ),
-                      hintText: "Meter No.",
+                      hintText: "Enter your meter number",
+                      label: Text("Meter no."),
                       contentPadding: EdgeInsets.symmetric(
                         horizontal: 10,
                       ),
@@ -212,6 +224,13 @@ class _RegisterState extends State<Register> {
                   //Password
                   TextFormField(
                     controller: controllerPassword_,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "password required*";
+                      }
+
+                      return null;
+                    },
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(5)),
@@ -220,13 +239,43 @@ class _RegisterState extends State<Register> {
                             color: Colors.grey,
                             style: BorderStyle.none),
                       ),
-                      hintText: "Password",
+                      hintText: "set password",
+                      label: Text("Password"),
                       contentPadding: EdgeInsets.symmetric(
                         horizontal: 10,
                       ),
                     ),
                     obscureText: false,
                   ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  //repeat password
+                  TextFormField(
+                    controller: controllerUsername_,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "repeat password required*";
+                      }
+
+                      return null;
+                    },
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(5)),
+                        borderSide: BorderSide(
+                            width: 3,
+                            color: Colors.grey,
+                            style: BorderStyle.none),
+                      ),
+                      hintText: "type password again",
+                      label: Text("Repeat password"),
+                      contentPadding: EdgeInsets.symmetric(
+                        horizontal: 10,
+                      ),
+                    ),
+                  ),
+
                   const SizedBox(
                     height: 50,
                   ),
@@ -324,34 +373,36 @@ class _RegisterState extends State<Register> {
   }
 
   void signup() {
-    auth
-        .createUserWithEmailAndPassword(
-            controllerEmail_.text, controllerPassword_.text)
-        .then((value) => Navigator.of(context).push(
-              PageRouteBuilder(
-                pageBuilder: (context, animation, secondaryAnimation) =>
-                    const Home(),
-                transitionsBuilder:
-                    (context, animation, secondaryAnimation, child) {
-                  const begin = Offset(0.0, 1.0);
-                  const end = Offset.zero;
-                  const curve = Curves.ease;
+    if (key_.currentState!.validate()) {
+      auth
+          .createUserWithEmailAndPassword(
+              controllerEmail_.text, controllerPassword_.text)
+          .then((value) => Navigator.of(context).push(
+                PageRouteBuilder(
+                  pageBuilder: (context, animation, secondaryAnimation) =>
+                      const Home(index: 0,),
+                  transitionsBuilder:
+                      (context, animation, secondaryAnimation, child) {
+                    const begin = Offset(0.0, 1.0);
+                    const end = Offset.zero;
+                    const curve = Curves.ease;
 
-                  final tween = Tween(begin: begin, end: end);
-                  final curvedAnimation = CurvedAnimation(
-                    parent: animation,
-                    curve: curve,
-                  );
+                    final tween = Tween(begin: begin, end: end);
+                    final curvedAnimation = CurvedAnimation(
+                      parent: animation,
+                      curve: curve,
+                    );
 
-                  return SlideTransition(
-                    position: tween.animate(curvedAnimation),
-                    child: child,
-                  );
-                },
-              ),
-            ));
+                    return SlideTransition(
+                      position: tween.animate(curvedAnimation),
+                      child: child,
+                    );
+                  },
+                ),
+              ));
 
-    controllerEmail_.clear();
-    controllerPassword_.clear();
+      controllerEmail_.clear();
+      controllerPassword_.clear();
+    }
   }
 }

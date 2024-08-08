@@ -16,7 +16,7 @@ class _WalletPState extends State<WalletP> {
   double? voltage;
   double? power;
   String dateTime = DateFormat.Hm().format(DateTime.now());
-  String? date_;
+  String date_ = DateFormat.yMMMMd().format(DateTime.now());
 
   // Format the time (24-hour format)
 
@@ -44,13 +44,14 @@ class _WalletPState extends State<WalletP> {
                       color: const Color.fromRGBO(10, 0, 82, 1),
                       bill: 1000,
                       balance: 300,
-                      date: dateTime,
+                      date: "$dateTime, $date_ ",
                     ),
-                    const MeterReading(
+                    MeterReading(
                       current: 50,
                       power: 230,
                       voltage: 220,
                       color: Colors.black,
+                      date: "$dateTime, $date_ ",
                     ),
                     const SizedBox(
                       width: 10,
@@ -71,49 +72,49 @@ class _WalletPState extends State<WalletP> {
                       fontWeight: FontWeight.bold,
                       fontFamily: 'Rubik-Regular'),
                 )),
-            const Column(
+            Column(
               children: [
                 Trans(
                   image: "images/momo.png",
                   number: "059456789",
                   amount: "600",
-                  date: " 28-02-24 12:30 AM",
+                  date: "$dateTime. $date_ ",
                 ),
                 Trans(
                   image: "images/momo.png",
                   number: "0532911103",
                   amount: "500",
-                  date: " 23-02-24 12:30 AM",
+                  date: "$dateTime. $date_ ",
                 ),
                 Trans(
                   image: "images/momo.png",
                   number: "056567893",
                   amount: "240",
-                  date: " 23-02-24 12:30 AM",
+                  date: "$dateTime. $date_ ",
                 ),
                 Trans(
                   image: "images/momo.png",
                   number: "0532911103",
                   amount: "100",
-                  date: " 22-01-24 01:00 PM",
+                  date: "$dateTime. $date_ ",
                 ),
                 Trans(
                   image: "images/momo.png",
                   number: "0532911103",
                   amount: "300",
-                  date: " 23-02-24 12:30 AM",
+                  date: "$dateTime. $date_ ",
                 ),
                 Trans(
                   image: "images/momo.png",
                   number: "0532911103",
                   amount: "100",
-                  date: " 22-01-24 01:00 PM",
+                  date: "$dateTime. $date_ ",
                 ),
                 Trans(
                   image: "images/momo.png",
                   number: "0532911103",
                   amount: "300",
-                  date: " 23-02-24 12:30 AM",
+                  date: "$dateTime. $date_ ",
                 ),
               ],
             )
@@ -179,12 +180,13 @@ class PaymentsWay extends StatelessWidget {
                         ),
                       ),
                       const Text(
-                        "MOMO",
+                        "BILLING",
                         style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                            fontFamily: 'Rubik-medium'),
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                          fontFamily: 'Rubik-medium',
+                        ),
                       ),
                     ],
                   ),
@@ -199,7 +201,7 @@ class PaymentsWay extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const Text(
-                            "Bill",
+                            "Current bill",
                             style: TextStyle(
                                 color: Colors.white60,
                                 fontWeight: FontWeight.w400,
@@ -291,12 +293,14 @@ class MeterReading extends StatelessWidget {
   final double voltage;
   final double current;
   final double power;
+  final String date;
   const MeterReading({
     super.key,
     required this.color,
     required this.current,
     required this.voltage,
     required this.power,
+    required this.date,
   });
 
   @override
@@ -384,7 +388,7 @@ class MeterReading extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Text(
-                          "$voltage",
+                          "$voltage V",
                           style: const TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
@@ -414,7 +418,7 @@ class MeterReading extends StatelessWidget {
                 const SizedBox(
                   height: 30,
                 ),
-                const Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     // Text(
@@ -424,10 +428,10 @@ class MeterReading extends StatelessWidget {
                     //     fontSize: 16,
                     //   ),
                     // ),
-                    Spacer(),
+                    const Spacer(),
                     Text(
-                      "03/24",
-                      style: TextStyle(
+                      date,
+                      style: const TextStyle(
                           color: Color.fromARGB(255, 205, 203, 203),
                           fontSize: 16,
                           fontFamily: 'Rubik-Regular'),

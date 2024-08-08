@@ -7,7 +7,11 @@ import 'package:smartpower/pages/account.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
-  const Home({super.key});
+  final int index;
+  const Home({
+    super.key,
+    required this.index,
+  });
 
   @override
   State<Home> createState() => _HomeState();
@@ -27,6 +31,14 @@ final PageStorageBucket bucket = PageStorageBucket();
 
 class _HomeState extends State<Home> {
   int selectedIndex = 0;
+  @override
+  void initState() {
+    setState(() {
+      selectedIndex = widget.index;
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -115,7 +127,7 @@ class _HomeState extends State<Home> {
                           }));
                     });
                   },
-                  backgroundColor: const Color.fromARGB(255, 1, 76, 16),
+                  backgroundColor: const Color.fromRGBO(10, 0, 82, 1),
 
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5)),

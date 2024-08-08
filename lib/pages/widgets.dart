@@ -6,17 +6,21 @@ class Trans extends StatelessWidget {
   final String number;
   final String date;
   final String amount;
-  const Trans(
-      {super.key,
-      required this.image,
-      required this.number,
-      required this.amount,
-      required this.date});
+  const Trans({
+    super.key,
+    required this.image,
+    required this.number,
+    required this.amount,
+    required this.date,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 25),
+      padding: const EdgeInsets.symmetric(
+        horizontal: 25,
+        vertical: 5,
+      ),
       child: Card(
           color: const Color.fromARGB(255, 231, 224, 224),
           shape: RoundedRectangleBorder(
@@ -34,7 +38,7 @@ class Trans extends StatelessWidget {
             title: Text(
               "Sent via $number",
               style: const TextStyle(
-                fontSize: 12,
+                fontSize: 8,
                 color: Color.fromARGB(255, 9, 0, 55),
                 fontFamily: 'Rubik-medium',
               ),
@@ -42,9 +46,10 @@ class Trans extends StatelessWidget {
             subtitle: Text(
               date,
               style: const TextStyle(
-                fontSize: 10,
-                color: Colors.black,
-                 fontFamily: 'Rubik-Regular'
+                fontSize: 8,
+                color: Color.fromARGB(255, 28, 97, 0),
+                fontWeight: FontWeight.bold,
+                fontFamily: 'Rubik-Regular',
               ),
             ),
             trailing: Container(

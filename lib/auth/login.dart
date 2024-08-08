@@ -15,10 +15,12 @@ class _LoginState extends State<Login> {
   TextEditingController emailControler = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   final AuthService auth = AuthService();
-  // final formkey_ = GlobalKey<FormState>();
+  final formkey_ = GlobalKey<FormState>();
 
   @override
   void dispose() {
+    emailControler.dispose();
+    passwordController.dispose();
     super.dispose();
   }
 
@@ -27,17 +29,6 @@ class _LoginState extends State<Login> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        // actions: [
-        //   IconButton(
-        //     onPressed: () {
-        //       Navigator.pop(context);
-        //     },
-        //     icon: const Icon(Icons.arrow_back_ios_outlined),
-        //   ),
-        //   const SizedBox(
-        //     width: 320,
-        //   )
-        // ],
       ),
       body: ListView(
         scrollDirection: Axis.vertical,
@@ -66,11 +57,10 @@ class _LoginState extends State<Login> {
                 Text(
                   "Welcome back , ",
                   style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                    color: Colors.black,
-                    fontFamily: 'Rubik-Regular'
-                  ),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                      color: Colors.black,
+                      fontFamily: 'Rubik-Regular'),
                 ),
                 SizedBox(
                   height: 5,
@@ -78,12 +68,10 @@ class _LoginState extends State<Login> {
                 Text(
                   "Monitor your electricy,reacharge more and enjoy power. ",
                   style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 19,
-                    color: Colors.black,
-                    fontFamily: 'Rubik-Regular'
-                    
-                  ),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 19,
+                      color: Colors.black,
+                      fontFamily: 'Rubik-Regular'),
                 )
               ],
             ),
@@ -93,7 +81,7 @@ class _LoginState extends State<Login> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 30),
             child: Form(
-              // key: formkey_,
+              key: formkey_,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -103,7 +91,7 @@ class _LoginState extends State<Login> {
                     keyboardType: TextInputType.emailAddress,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return "Enter email";
+                        return "email*";
                       }
                       return null;
                     },
@@ -131,7 +119,7 @@ class _LoginState extends State<Login> {
                     controller: passwordController,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return "Enter password";
+                        return "password required*";
                       }
                       return null;
                     },
@@ -144,7 +132,7 @@ class _LoginState extends State<Login> {
                             style: BorderStyle.none),
                       ),
                       hintText: "Password",
-                      label: Text("password"),
+                      label: Text("Password"),
                       contentPadding: EdgeInsets.symmetric(
                         horizontal: 10,
                       ),
@@ -159,46 +147,7 @@ class _LoginState extends State<Login> {
                     height: 50,
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return const Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          },
-                        );
-                        Navigator.of(context).push(PageRouteBuilder(
-                            pageBuilder:
-                                (context, animation, secondaryAnimation) =>
-                                    const Home(),
-                            transitionsBuilder: (context, animation,
-                                secondaryAnimation, child) {
-                              const begin = Offset(0.0, 1.0);
-                              const end = Offset.zero;
-                              const curve = Curves.ease;
-
-                              final tween = Tween(begin: begin, end: end);
-                              final curvedAnimation = CurvedAnimation(
-                                parent: animation,
-                                curve: curve,
-                              );
-
-                              return SlideTransition(
-                                position: tween.animate(curvedAnimation),
-                                child: child,
-                              );
-                            }));
-
-                        // Navigator.of(context).pop();
-                      },
-
-                      // {
-                      //   // if(formkey_.currentState!.validate())
-                      //   // {
-
-                      //   // }
-                      // },
+                      onPressed: signIn,
                       style: const ButtonStyle(
                         shape: WidgetStatePropertyAll(
                           RoundedRectangleBorder(
@@ -272,9 +221,8 @@ class _LoginState extends State<Login> {
                             child: const Text(
                               "Sign up",
                               style: TextStyle(
-                                fontSize: 15,
-                                color:  Color.fromARGB(255, 8, 1, 74)
-                              ),
+                                  fontSize: 15,
+                                  color: Color.fromARGB(255, 8, 1, 74)),
                             ),
                           ),
                         ),
@@ -291,31 +239,45 @@ class _LoginState extends State<Login> {
   }
 
   void signIn() {
-    auth
-        .signUserWithEmailAndPassword(
-            emailControler.text, passwordController.text)
-        .then(
-          (value) => Navigator.of(context).push(PageRouteBuilder(
-              pageBuilder: (context, animation, secondaryAnimation) =>
-                  const Home(),
-              transitionsBuilder:
-                  (context, animation, secondaryAnimation, child) {
-                const begin = Offset(0.0, 1.0);
-                const end = Offset.zero;
-                const curve = Curves.ease;
+    if (formkey_.currentState!.validate()) {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        },
+      );
+      auth
+          .signUserWithEmailAndPassword(
+              emailControler.text, passwordController.text)
+          .then(
+            (value) => Navigator.of(context).push(
+              PageRouteBuilder(
+                  pageBuilder: (context, animation, secondaryAnimation) =>
+                      const Home(index: 0,),
+                  transitionsBuilder:
+                      (context, animation, secondaryAnimation, child) {
+                    const begin = Offset(0.0, 1.0);
+                    const end = Offset.zero;
+                    const curve = Curves.ease;
 
-                final tween = Tween(begin: begin, end: end);
-                final curvedAnimation = CurvedAnimation(
-                  parent: animation,
-                  curve: curve,
-                );
+                    final tween = Tween(begin: begin, end: end);
+                    final curvedAnimation = CurvedAnimation(
+                      parent: animation,
+                      curve: curve,
+                    );
 
-                return SlideTransition(
-                  position: tween.animate(curvedAnimation),
-                  child: child,
-                );
-              })),
-        );
+                    return SlideTransition(
+                      position: tween.animate(curvedAnimation),
+                      child: child,
+                    );
+                  }),
+            ),
+          );
+
+          // Navigator.pop(context);
+    }
   }
 }
 
