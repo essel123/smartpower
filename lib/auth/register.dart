@@ -22,6 +22,7 @@ class _RegisterState extends State<Register> {
   TextEditingController controllerMeter_ = TextEditingController();
 
   TextEditingController controllerPassword_ = TextEditingController();
+  TextEditingController controllerPasswordRepeat = TextEditingController();
 
   final key_ = GlobalKey<FormState>();
 
@@ -47,7 +48,6 @@ class _RegisterState extends State<Register> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Colors.white,
-        
       ),
       body: ListView(
         scrollDirection: Axis.vertical,
@@ -245,14 +245,15 @@ class _RegisterState extends State<Register> {
                         horizontal: 10,
                       ),
                     ),
-                    obscureText: false,
+                    obscureText: true,
                   ),
                   const SizedBox(
                     height: 20,
                   ),
                   //repeat password
                   TextFormField(
-                    controller: controllerUsername_,
+                    controller: controllerPasswordRepeat,
+                    obscureText: true,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return "repeat password required*";
@@ -374,35 +375,105 @@ class _RegisterState extends State<Register> {
 
   void signup() {
     if (key_.currentState!.validate()) {
-      auth
-          .createUserWithEmailAndPassword(
-              controllerEmail_.text, controllerPassword_.text)
-          .then((value) => Navigator.of(context).push(
-                PageRouteBuilder(
-                  pageBuilder: (context, animation, secondaryAnimation) =>
-                      const Home(index: 0,),
-                  transitionsBuilder:
-                      (context, animation, secondaryAnimation, child) {
-                    const begin = Offset(0.0, 1.0);
-                    const end = Offset.zero;
-                    const curve = Curves.ease;
-
-                    final tween = Tween(begin: begin, end: end);
-                    final curvedAnimation = CurvedAnimation(
-                      parent: animation,
-                      curve: curve,
-                    );
-
-                    return SlideTransition(
-                      position: tween.animate(curvedAnimation),
-                      child: child,
-                    );
-                  },
+      if (controllerPassword_.text != controllerPasswordRepeat.text) {
+        showDialog(
+          context: context,
+          builder: (context) => SizedBox(
+            width: 100,
+            child: AlertDialog(
+              alignment: Alignment.center,
+              title: const Text("Password Mismatched"),
+              titlePadding:
+                  const EdgeInsets.symmetric(horizontal: 60, vertical: 20),
+              titleTextStyle: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold),
+              actionsPadding: const EdgeInsets.all(8),
+              iconColor: Colors.white,
+              iconPadding: const EdgeInsets.all(2),
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(15)),
+              ),
+              backgroundColor: const Color.fromARGB(255, 8, 1, 74),
+              // icon: Icon(Icons.info, size: 100),
+              actions: [
+                Center(
+                  child: Container(
+                    height: 40,
+                    width: 60,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10)),
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Text("Okay"),
+                    ),
+                  ),
                 ),
-              ));
+              ],
+            ),
+          ),
+        );
+      } else {
+        showDialog(
+            context: context,
+            builder: (context) => const Center(
+                  child: CircularProgressIndicator(
+                    strokeWidth: 10,
+                  ),
+                ));
 
-      controllerEmail_.clear();
-      controllerPassword_.clear();
+        Map<String, dynamic> users = {
+          "Name": controllerFulname_.text,
+          "Email": controllerEmail_.text,
+          "Phone": controllerPhone_.text,
+          "Meter Number": controllerMeter_.text,
+          "Password": controllerPassword_.text,
+        };
+
+        auth.addUserDetails(users).then(
+          (value) {
+            auth
+                .createUserWithEmailAndPassword(
+                  controllerEmail_.text,
+                  controllerPassword_.text,
+                )
+                .then(
+                  (value) => Navigator.of(context).push(
+                    PageRouteBuilder(
+                      pageBuilder: (context, animation, secondaryAnimation) =>
+                          const Home(
+                        index: 0,
+                      ),
+                      transitionsBuilder:
+                          (context, animation, secondaryAnimation, child) {
+                        const begin = Offset(0.0, 1.0);
+                        const end = Offset.zero;
+                        const curve = Curves.ease;
+
+                        final tween = Tween(begin: begin, end: end);
+                        final curvedAnimation = CurvedAnimation(
+                          parent: animation,
+                          curve: curve,
+                        );
+
+                        return SlideTransition(
+                          position: tween.animate(curvedAnimation),
+                          child: child,
+                        );
+                      },
+                    ),
+                  ),
+                );
+          },
+        );
+      }
+
+      // controllerEmail_.clear();
+      // controllerPassword_.clear();
     }
   }
 }

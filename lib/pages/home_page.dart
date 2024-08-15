@@ -17,21 +17,21 @@ List time = [
 ];
 List image = [
   "images/profile.jpg",
-  "images/2.jpg",
+  "images/fake-meter.jpg",
   "images/3.jpg",
   "images/4.jpg",
 ];
 
 List title = [
   "Essel Apusiga Abraham",
-  "Analytical study",
+  "Fake meters",
   "Power blackouts",
   "Dumsor",
 ];
- 
+
 List subtitle = [
   "CEO & Founder of Smartpower",
-  "lorem ipson dola chew chaw 2",
+  "ECG airs on fake meters",
   "lorem ipson dola chew chaw 3",
   "lorem ipson dola chew chaw 4",
 ];
@@ -64,7 +64,7 @@ class _HomePageState extends State<HomePage> {
         elevation: 5,
       ),
       body: RefreshIndicator(
-        onRefresh: () async{},
+        onRefresh: () async {},
         child: ListView.builder(
           scrollDirection: Axis.vertical,
           physics: const BouncingScrollPhysics(
@@ -86,13 +86,13 @@ class _HomePageState extends State<HomePage> {
                       const begin = Offset(0.0, 1.0);
                       const end = Offset.zero;
                       const curve = Curves.ease;
-        
+
                       final tween = Tween(begin: begin, end: end);
                       final curvedAnimation = CurvedAnimation(
                         parent: animation,
                         curve: curve,
                       );
-        
+
                       return SlideTransition(
                         position: tween.animate(curvedAnimation),
                         child: child,

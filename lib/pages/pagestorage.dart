@@ -63,22 +63,27 @@ class _HomeState extends State<Home> {
               selectedItemColor: const Color.fromRGBO(10, 0, 82, 1),
               type: BottomNavigationBarType.fixed,
               selectedLabelStyle: const TextStyle(
-                fontSize: 16,
+                fontSize: 10,
                 fontWeight: FontWeight.bold,
               ),
               elevation: 0,
               items: const [
-                BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.payment), label: "Wallet"),
+                  icon: Icon(Icons.home),
+                  label: "Home",
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.payment),
+                  label: "Bill",
+                ),
                 BottomNavigationBarItem(
                     icon: Icon(
                       Icons.leaderboard,
                     ),
                     label: "Chart"),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.message_outlined),
-                  label: "Inquire",
+                  icon: Icon(Icons.message),
+                  label: "Message",
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.person),

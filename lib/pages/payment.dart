@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:pay_with_paystack/pay_with_paystack.dart';
+import 'package:smartpower/firebase-backend/firebase_auth_services.dart';
 import 'package:smartpower/pages/pagestorage.dart';
 
 class Pay extends StatefulWidget {
@@ -23,6 +25,7 @@ class _PayState extends State<Pay> {
   TextEditingController controlerPhone_ = TextEditingController();
   TextEditingController amount = TextEditingController();
   final formkey_ = GlobalKey<FormState>();
+  final AuthService auth = AuthService();
 
   @override
   void dispose() {
@@ -135,78 +138,86 @@ class _PayState extends State<Pay> {
 
                                 PayWithPayStack()
                                     .now(
+                                  context: context,
+                                  secretKey:
+                                      "sk_test_597c203c9f905ab2780d550237d19e43faf4e86a",
+                                  customerEmail: "abrahamessel156@gmail.com",
+                                  reference: uniqueTransRef,
+                                  currency: "GHS",
+                                  amount: double.parse(amount.text),
+                                  paymentChannel: ["mobile_money", "card"],
+                                  metaData: {
+                                    "custom_fields": [
+                                      {
+                                        "name": "essel apusiga",
+                                        "phone": "$controlerPhone_"
+                                      }
+                                    ]
+                                  },
+                                  transactionCompleted: () {
+                                    showDialog(
                                       context: context,
-                                      secretKey:
-                                          "sk_test_597c203c9f905ab2780d550237d19e43faf4e86a",
-                                      customerEmail:
-                                          "abrahamessel156@gmail.com",
-                                      reference: uniqueTransRef,
-                                      currency: "GHS",
-                                      amount: double.parse(amount.text),
-                                      paymentChannel: ["mobile_money", "card"],
-                                      metaData: {
-                                        "custom_fields": [
-                                          {
-                                            "name": "essel apusiga",
-                                            "phone": "$controlerPhone_"
-                                          }
-                                        ]
-                                      },
-                                      transactionCompleted: () {
-                                        showDialog(
-                                          context: context,
-                                          builder: (context) => AlertDialog(
-                                            title: const Text(
-                                                "Payment Successful"),
-                                            content: const Text(
-                                                "Your payment was successful!"),
-                                            actions: [
-                                              TextButton(
-                                                child: const Text("OK"),
-                                                onPressed: () {
-                                                  Navigator.of(context)
-                                                      .pop(); // Close the dialog
-                                                },
-                                              )
-                                            ],
-                                          ),
-                                        );
-                                      },
-                                      transactionNotCompleted: () {},
-                                      callbackUrl: 'https//www.google.com',
-                                    )
-                                    .then(
-                                      (value) => Navigator.of(context).push(
-                                        PageRouteBuilder(
-                                            pageBuilder: (context, animation,
-                                                    secondaryAnimation) =>
-                                                const Home(
-                                                  index: 1,
-                                                ),
-                                            transitionsBuilder: (context,
-                                                animation,
-                                                secondaryAnimation,
-                                                child) {
-                                              const begin = Offset(0.0, 1.0);
-                                              const end = Offset.zero;
-                                              const curve = Curves.ease;
-
-                                              final tween =
-                                                  Tween(begin: begin, end: end);
-                                              final curvedAnimation =
-                                                  CurvedAnimation(
-                                                parent: animation,
-                                                curve: curve,
-                                              );
-
-                                              return SlideTransition(
-                                                position: tween
-                                                    .animate(curvedAnimation),
-                                                child: child,
-                                              );
-                                            }),
+                                      builder: (context) => AlertDialog(
+                                        title: const Text("Payment Successful"),
+                                        content: const Text(
+                                            "Your payment was successful!"),
+                                        actions: [
+                                          TextButton(
+                                            child: const Text("OK"),
+                                            onPressed: () {
+                                              Navigator.of(context)
+                                                  .pop(); // Close the dialog
+                                            },
+                                          )
+                                        ],
                                       ),
                                     );
+                                  },
+                                  transactionNotCompleted: () {},
+                                  callbackUrl: 'https//www.google.com',
+                                )
+                                    .then((value) {
+                                  // String id = randomAlphaNumeric(10);
+                                  Map<String, dynamic> transactions = {
+                                   
+                                    "Amount": amount.text,
+                                    "Time":
+                                        " ${DateFormat.yMMMMd().format(DateTime.now())} at ${DateFormat.Hm().format(DateTime.now())}",
+                                    "Phone": "0551234987",
+                                  };
+
+                                  AuthService()
+                                      .addTransactions(transactions);
+
+                                  Navigator.of(context).push(
+                                    PageRouteBuilder(
+                                        pageBuilder: (context, animation,
+                                                secondaryAnimation) =>
+                                            const Home(
+                                              index: 1,
+                                            ),
+                                        transitionsBuilder: (context, animation,
+                                            secondaryAnimation, child) {
+                                          const begin = Offset(0.0, 1.0);
+                                          const end = Offset.zero;
+                                          const curve = Curves.ease;
+
+                                          final tween =
+                                              Tween(begin: begin, end: end);
+                                          final curvedAnimation =
+                                              CurvedAnimation(
+                                            parent: animation,
+                                            curve: curve,
+                                          );
+
+                                          return SlideTransition(
+                                            position:
+                                                tween.animate(curvedAnimation),
+                                            child: child,
+                                          );
+                                        }),
+                                  );
+                                });
                               }
                             },
                             style: const ButtonStyle(
