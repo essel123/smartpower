@@ -60,6 +60,13 @@ class _StatisticsChartsState extends State<StatisticsCharts> {
                           child: MaterialButton(
                             onPressed: () {
                               setState(() {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => DatePickerDialog(
+                                    firstDate: DateTime.now(),
+                                    lastDate: DateTime.timestamp(),
+                                  ),
+                                );
                                 dayColor =
                                     const Color.fromARGB(255, 240, 234, 234);
                                 monthColor = Colors.transparent;

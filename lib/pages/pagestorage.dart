@@ -82,8 +82,8 @@ class _HomeState extends State<Home> {
                     ),
                     label: "Chart"),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.message),
-                  label: "Message",
+                  icon: Icon(Icons.mail),
+                  label: "Send mail",
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.person),

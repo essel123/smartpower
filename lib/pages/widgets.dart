@@ -80,13 +80,16 @@ class News extends StatelessWidget {
   final String image;
   final String title;
   final String subtitle;
+  final String news;
 
   const News(
       {super.key,
       required this.time,
       required this.image,
       required this.title,
-      required this.subtitle});
+      required this.subtitle,
+      required this.news,
+      });
 
   @override
   Widget build(BuildContext context) {
@@ -204,6 +207,7 @@ class News extends StatelessWidget {
                                         image: image,
                                         title: title,
                                         subtitle: subtitle,
+                                        news: news,
                                       ),
                               transitionsBuilder: (context, animation,
                                   secondaryAnimation, child) {

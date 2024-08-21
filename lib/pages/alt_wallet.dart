@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:smartpower/firebase-backend/firebase_auth_services.dart';
@@ -30,6 +31,9 @@ class _WalletPState extends State<WalletP> {
       FirebaseDatabase.instance.ref('meter');
   final DatabaseReference databaseReference =
       FirebaseDatabase.instance.ref('billing');
+  final DatabaseReference reference = FirebaseDatabase.instance.ref();
+
+  NumberFormat formatter = NumberFormat('0.0000');
 
   String? test;
 
@@ -43,7 +47,6 @@ class _WalletPState extends State<WalletP> {
   Future<void> preparebill() async {
     final snapshot = await _databaseReference.get();
     final snap = await databaseReference.get();
-   
 
     if (snapshot.exists && snap.exists) {
       // Map data =  snapshot.children.;
@@ -65,8 +68,8 @@ class _WalletPState extends State<WalletP> {
       Timer.periodic(const Duration(seconds: 1), (timer) {
         if (getenergy[1] == 0) {}
         bill += calc;
-        print(bill);
-        // databaseReference.child('bill').update();
+        // print(bill);
+        reference.child('billing/').update({'bill': 1.112});
         setState(() {
           billpaid = (bill * 10000).roundToDouble() / 10000;
           dateTime = DateFormat.Hm().format(DateTime.now());
@@ -90,13 +93,14 @@ class _WalletPState extends State<WalletP> {
   @override
   void initState() {
     gettrasactions();
-    preparebill();
 
     setState(() {
-      billpaid = calc;
       gettrasactions();
-      dateTime = DateFormat.Hm().format(DateTime.now());
-      date_ = DateFormat.yMMMMd().format(DateTime.now());
+
+      Timer.periodic(const Duration(seconds: 1), (timer) {
+        dateTime = DateFormat.Hm().format(DateTime.now());
+        date_ = DateFormat.yMMMMd().format(DateTime.now());
+      });
     });
     super.initState();
   }
@@ -141,24 +145,328 @@ class _WalletPState extends State<WalletP> {
             StreamBuilder(
                 stream: databaseReference.onValue,
                 builder: (context, AsyncSnapshot snapshot) {
-                  Map data = snapshot.data.snapshot.value;
-                  data['key'] = snapshot.data.snapshot.key;
+                  try {
+                    Map data = snapshot.data.snapshot.value;
+                    data['key'] = snapshot.data.snapshot.key;
+                    //  PaymentsWay(
+                    //           color: const Color.fromRGBO(10, 0, 82, 1),
+                    //           bill: double.parse(
+                    //             formatter.format(
+                    //               data['bill'],
+                    //             ),
+                    //           ),
+                    //           balance: double.parse(
+                    //             formatter.format(
+                    //               data['balance'],
+                    //             ),
+                    //           ),
+                    //           date: "$dateTime, $date_ ",
+                    //         ),
 
-                  if (snapshot.hasData &&
-                      !snapshot.hasError &&
-                      snapshot.data.snapshot.value != null) {
-                    return Expanded(
-                        flex: 3,
-                        child: ListView.builder(
-                          itemCount: 1,
-                          itemBuilder: (context, index) => PaymentsWay(
-                            color: const Color.fromRGBO(10, 0, 82, 1),
-                            bill: data['bill'],
-                            balance: data['balance'],
-                            date: "$dateTime, $date_ ",
-                          ),
-                        ));
-                  } else {
+                    if (snapshot.hasData &&
+                        !snapshot.hasError &&
+                        snapshot.data.snapshot.value != null) {
+                      return Expanded(
+                          flex: 3,
+                          child: ListView.builder(
+                              itemCount: 1,
+                              itemBuilder: (context, index) => SizedBox(
+                                    width: double.infinity,
+                                    child: Center(
+                                      child: Container(
+                                        decoration: const BoxDecoration(
+                                          borderRadius: BorderRadius.only(
+                                            bottomLeft: Radius.circular(15),
+                                            bottomRight: Radius.circular(15),
+                                          ),
+                                          color: Color.fromRGBO(10, 0, 82, 1),
+                                          // image: const DecorationImage(
+                                          //   fit: BoxFit.cover,
+                                          //   image: AssetImage("images/profile.jpg"),
+                                          // ),
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                            vertical: 5,
+                                            horizontal: 20,
+                                          ),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              const SizedBox(
+                                                height: 5,
+                                              ),
+                                              const SizedBox(
+                                                height: 15,
+                                              ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      const Text(
+                                                        "Current bill",
+                                                        style: TextStyle(
+                                                            color:
+                                                                Colors.white60,
+                                                            fontWeight:
+                                                                FontWeight.w400,
+                                                            fontSize: 14,
+                                                            fontFamily:
+                                                                'Rubik-medium'),
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 10,
+                                                      ),
+                                                      Text(
+                                                        "GHC ${double.parse(
+                                                          formatter.format(
+                                                            data['bill'],
+                                                          ),
+                                                        )}",
+                                                        style: const TextStyle(
+                                                            color: Colors.white,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontSize: 18,
+                                                            fontFamily:
+                                                                'Rubik-Italic'),
+                                                      )
+                                                    ],
+                                                  ),
+                                                  Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      const Text(
+                                                        "Balance",
+                                                        style: TextStyle(
+                                                            color:
+                                                                Colors.white60,
+                                                            fontWeight:
+                                                                FontWeight.w400,
+                                                            fontSize: 14,
+                                                            fontFamily:
+                                                                'Rubik-medium'),
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 10,
+                                                      ),
+                                                      InkWell(
+                                                        onTap: () async {
+                                                          Center(
+                                                              child:
+                                                                  await showDialog(
+                                                            context: context,
+                                                            builder: (context) =>
+                                                                data['balance'] >
+                                                                        0.5
+                                                                    ? AlertDialog(
+                                                                        title: const Text(
+                                                                            "Are you sure you want to settle bill with your remaining balance?"),
+                                                                        actions: [
+                                                                          Row(
+                                                                            mainAxisAlignment:
+                                                                                MainAxisAlignment.spaceAround,
+                                                                            children: [
+                                                                              SizedBox(
+                                                                                child: ElevatedButton(
+                                                                                  style: const ButtonStyle(
+                                                                                      backgroundColor: WidgetStatePropertyAll(
+                                                                                        Color.fromRGBO(10, 0, 82, 1),
+                                                                                      ),
+                                                                                      shape: WidgetStatePropertyAll(
+                                                                                        RoundedRectangleBorder(
+                                                                                          borderRadius: BorderRadius.all(Radius.circular(5)),
+                                                                                        ),
+                                                                                      )),
+                                                                                  onPressed: () {
+                                                                                    Navigator.pop(context);
+                                                                                  },
+                                                                                  child: const Center(
+                                                                                    child: Text(
+                                                                                      "No",
+                                                                                      style: TextStyle(
+                                                                                        color: Colors.white,
+                                                                                        fontWeight: FontWeight.bold,
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                              SizedBox(
+                                                                                child: ElevatedButton(
+                                                                                  style: const ButtonStyle(
+                                                                                      backgroundColor: WidgetStatePropertyAll(
+                                                                                        Color.fromRGBO(10, 0, 82, 1),
+                                                                                      ),
+                                                                                      shape: WidgetStatePropertyAll(
+                                                                                        RoundedRectangleBorder(
+                                                                                          borderRadius: BorderRadius.all(Radius.circular(5)),
+                                                                                        ),
+                                                                                      )),
+                                                                                  onPressed: () {
+                                                                                    try {
+                                                                                      final DatabaseReference reference = FirebaseDatabase.instance.ref();
+                                                                                      // final DatabaseReference reference_ = FirebaseDatabase.instance.ref("billing");
+
+                                                                                      if (data['bill'] >= data['balance']) {
+                                                                                        reference.child("billing/").update({
+                                                                                          'bill': data['bill'] - data['balance']
+                                                                                        });
+                                                                                        reference.child("billing/").update({
+                                                                                          'balance': 0.001
+                                                                                        });
+                                                                                      } else if (data['balance'] >= data['bill']) {
+                                                                                        reference.child('billing/').update({
+                                                                                          'bill': 0.001
+                                                                                        });
+                                                                                        reference.child("billing/").update({
+                                                                                          'balance': data['balance'] - data['bill']
+                                                                                        });
+                                                                                      }
+                                                                                      Navigator.pop(context);
+                                                                                    } catch (e) {
+                                                                                      print(e);
+                                                                                    }
+
+                                                                                    //  if (data['']>= amount_) {
+                                                                                    //   pay = getbill[1] - amount_;
+                                                                                    //   reference
+                                                                                    //       .child('billing/')
+                                                                                    //       .update({'bill': pay});
+                                                                                    // } else if (amount_ >= getbill[1]) {
+                                                                                    //   pay = amount_ - getbill[1];
+                                                                                    //   reference
+                                                                                    //       .child('billing/')
+                                                                                    //       .update({'bill': 0.0001});
+                                                                                    //   reference.child('billing/').update(
+                                                                                    // //       {'balance': pay + getbill[0]});
+                                                                                    // }
+
+                                                                                    //   setState(() {});
+                                                                                    // } catch (e) {
+                                                                                    //   // Handle the case where the user enters invalid input
+                                                                                    //   // print('Invalid input: $e');
+                                                                                    // }
+                                                                                  },
+                                                                                  child: const Text(
+                                                                                    "Yes",
+                                                                                    style: TextStyle(
+                                                                                      color: Colors.white,
+                                                                                      fontWeight: FontWeight.bold,
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                            ],
+                                                                          )
+                                                                        ],
+                                                                      )
+                                                                    : const AlertDialog(
+                                                                        title:
+                                                                            Text(
+                                                                          "Not enough funds",
+                                                                        ),
+                                                                      ),
+                                                          ));
+                                                        },
+                                                        child: Container(
+                                                          decoration:
+                                                              const BoxDecoration(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .all(Radius
+                                                                        .circular(
+                                                                            5)),
+                                                            color: Colors.white,
+                                                          ),
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(5),
+                                                            child: Text(
+                                                              "GHC GHC ${double.parse(formatter.format(data['balance']))} ",
+                                                              style: const TextStyle(
+                                                                  color: Color
+                                                                      .fromARGB(
+                                                                          255,
+                                                                          0,
+                                                                          9,
+                                                                          87),
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  fontSize: 18,
+                                                                  fontFamily:
+                                                                      'Rubik-Italic'),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      )
+                                                    ],
+                                                  )
+                                                ],
+                                              ),
+                                              const SizedBox(
+                                                height: 30,
+                                              ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  // Text(
+                                                  //   "0532911103",
+                                                  //   style: TextStyle(
+                                                  //     color: Color.fromARGB(255, 205, 203, 203),
+                                                  //     fontSize: 16,
+                                                  //   ),
+                                                  // ),
+                                                  const CircleAvatar(
+                                                    radius: 8,
+                                                    backgroundColor:
+                                                        Colors.green,
+                                                  ),
+                                                  const Spacer(),
+                                                  Text(
+                                                    "$dateTime, $date_",
+                                                    style: const TextStyle(
+                                                      color: Color.fromARGB(
+                                                          255, 205, 203, 203),
+                                                      fontSize: 16,
+                                                      fontFamily:
+                                                          'Rubik-Regular',
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              const SizedBox(
+                                                height: 10,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  )));
+                    } else {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                  } catch (e) {
                     return const Center(
                       child: CircularProgressIndicator(),
                     );
@@ -194,7 +502,7 @@ class _WalletPState extends State<WalletP> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 const Text(
-                                  "METER40965 READS",
+                                  "METER READING",
                                   style: TextStyle(
                                     color: Color.fromRGBO(10, 0, 82, 1),
                                     fontWeight: FontWeight.bold,
@@ -223,7 +531,8 @@ class _WalletPState extends State<WalletP> {
                                         const SizedBox(
                                           width: 15,
                                         ),
-                                        Text("${data['voltage']}V"),
+                                        Text(
+                                            "${double.parse(formatter.format(data['voltage']))}V"),
                                       ],
                                     ),
                                     const SizedBox(
@@ -331,7 +640,7 @@ class _WalletPState extends State<WalletP> {
   }
 }
 
-class PaymentsWay extends StatelessWidget {
+class PaymentsWay extends StatefulWidget {
   final Color color;
   final double bill;
   final double balance;
@@ -345,6 +654,11 @@ class PaymentsWay extends StatelessWidget {
   });
 
   @override
+  State<PaymentsWay> createState() => _PaymentsWayState();
+}
+
+class _PaymentsWayState extends State<PaymentsWay> {
+  @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
@@ -355,7 +669,7 @@ class PaymentsWay extends StatelessWidget {
               bottomLeft: Radius.circular(15),
               bottomRight: Radius.circular(15),
             ),
-            color: color.withOpacity(1),
+            color: widget.color.withOpacity(1),
             // image: const DecorationImage(
             //   fit: BoxFit.cover,
             //   image: AssetImage("images/profile.jpg"),
@@ -394,7 +708,7 @@ class PaymentsWay extends StatelessWidget {
                           height: 10,
                         ),
                         Text(
-                          "GHC $bill",
+                          "GHC ${widget.bill}",
                           style: const TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
@@ -418,13 +732,22 @@ class PaymentsWay extends StatelessWidget {
                         const SizedBox(
                           height: 10,
                         ),
-                        Text(
-                          "GHC $balance",
-                          style: const TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                              fontFamily: 'Rubik-Italic'),
+                        Container(
+                          decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(5)),
+                            color: Colors.white,
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(5),
+                            child: Text(
+                              "GHC ${widget.balance}",
+                              style: const TextStyle(
+                                  color: Color.fromARGB(255, 0, 9, 87),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                  fontFamily: 'Rubik-Italic'),
+                            ),
+                          ),
                         )
                       ],
                     )
@@ -449,7 +772,7 @@ class PaymentsWay extends StatelessWidget {
                     ),
                     const Spacer(),
                     Text(
-                      date,
+                      widget.date,
                       style: const TextStyle(
                         color: Color.fromARGB(255, 205, 203, 203),
                         fontSize: 16,

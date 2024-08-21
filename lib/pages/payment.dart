@@ -1,8 +1,11 @@
+import 'dart:core';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pay_with_paystack/pay_with_paystack.dart';
 import 'package:smartpower/firebase-backend/firebase_auth_services.dart';
 import 'package:smartpower/pages/pagestorage.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 class Pay extends StatefulWidget {
   const Pay({super.key});
@@ -130,9 +133,10 @@ class _PayState extends State<Pay> {
                           height: 50,
                           width: double.infinity,
                           child: ElevatedButton(
-                            onPressed: () {
+                            onPressed: () async {
                               if (formkey_.currentState!.validate()) {
-                                controlerPhone_.clear();
+                                
+                               
                                 final uniqueTransRef =
                                     PayWithPayStack().generateUuidV4();
 
@@ -150,7 +154,7 @@ class _PayState extends State<Pay> {
                                     "custom_fields": [
                                       {
                                         "name": "essel apusiga",
-                                        "phone": "$controlerPhone_"
+                                        "phone": controlerPhone_.text,
                                       }
                                     ]
                                   },
@@ -176,18 +180,59 @@ class _PayState extends State<Pay> {
                                   transactionNotCompleted: () {},
                                   callbackUrl: 'https//www.google.com',
                                 )
-                                    .then((value) {
+                                    .then((value) async {
+                                       try {
+                                    final DatabaseReference reference =
+                                        FirebaseDatabase.instance.ref();
+                                    final DatabaseReference reference_ =
+                                        FirebaseDatabase.instance
+                                            .ref("billing");
+
+                                    final snap = await reference_.get();
+
+                                    Map data = snap.value as Map;
+
+                                    data['key'] = snap.key;
+
+                                    late double pay;
+                                    late double amount_;
+                                    var getbill = [];
+
+                                    for (var element in snap.children) {
+                                      getbill.add(element.value);
+                                    }
+
+                                    amount_ = double.parse(amount.text);
+                                    if (getbill[1] >= amount_) {
+                                      pay = getbill[1] - amount_;
+                                      reference
+                                          .child('billing/')
+                                          .update({'bill': pay});
+                                    } else if (amount_ >= getbill[1]) {
+                                      pay = amount_ - getbill[1];
+                                      reference
+                                          .child('billing/')
+                                          .update({'bill': 0.0001});
+                                      reference.child('billing/').update(
+                                          {'balance': pay + getbill[0]});
+                                    }
+
+                                    setState(() {});
+                                  } catch (e) {
+                                    // Handle the case where the user enters invalid input
+                                    // print('Invalid input: $e');
+                                  }
+                                 
+                                 
                                   // String id = randomAlphaNumeric(10);
                                   Map<String, dynamic> transactions = {
-                                   
                                     "Amount": amount.text,
                                     "Time":
                                         " ${DateFormat.yMMMMd().format(DateTime.now())} at ${DateFormat.Hm().format(DateTime.now())}",
                                     "Phone": "0551234987",
                                   };
 
-                                  AuthService()
-                                      .addTransactions(transactions);
+                                  AuthService().addTransactions(transactions);
 
                                   Navigator.of(context).push(
                                     PageRouteBuilder(

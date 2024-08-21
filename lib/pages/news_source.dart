@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:smartpower/pages/home_page.dart';
 
 String message = """
@@ -11,6 +12,8 @@ class NewsHome extends StatelessWidget {
   final String image;
   final String title;
   final String subtitle;
+  final String news;
+
   // final String message;
   const NewsHome({
     super.key,
@@ -18,11 +21,34 @@ class NewsHome extends StatelessWidget {
     required this.image,
     required this.title,
     required this.subtitle,
+    required this.news,
     // required this.message,
   });
 
   @override
   Widget build(BuildContext context) {
+    Future<void> _sendEmail() async {
+      final Email email = Email(
+        body: "Hi, I will like to know more about this neews feed",
+        subject: "News Feed inquiries",
+        recipients: [
+          'abrahamessel156@gmail.com'
+        ], // Replace with recipient email
+        isHTML: false,
+      );
+
+      try {
+        await FlutterEmailSender.send(email);
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Email sent successfully!')),
+        );
+      } catch (error) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Failed to send email, try again')),
+        );
+      }
+    }
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -99,7 +125,7 @@ class NewsHome extends StatelessWidget {
                             child: Container(
                               color: Colors.black.withOpacity(0.3),
                               child: Align(
-                                alignment: Alignment.bottomLeft,
+                                alignment: Alignment.center,
                                 child: Container(
                                   decoration: BoxDecoration(
                                     color: const Color.fromARGB(255, 0, 0, 0)
@@ -107,8 +133,8 @@ class NewsHome extends StatelessWidget {
                                     border: const Border(
                                       bottom: BorderSide(color: Colors.amber),
                                       top: BorderSide(color: Colors.amber),
-                                      left: BorderSide(color: Colors.amber),
-                                      right: BorderSide(color: Colors.amber),
+                                      // left: BorderSide(color: Colors.amber),
+                                      // right: BorderSide(color: Colors.amber),
                                     ),
                                   ),
                                   width: double.infinity,
@@ -151,7 +177,7 @@ class NewsHome extends StatelessWidget {
                             child: Padding(
                               padding: const EdgeInsets.all(12),
                               child: Text(
-                                message,
+                                news,
                                 style: const TextStyle(
                                     wordSpacing: 0,
                                     fontSize: 16,
@@ -176,65 +202,67 @@ class NewsHome extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: FloatingActionButton(
           onPressed: () {
-            showDialog(
-              context: context,
-              builder: (context) {
-                return AlertDialog(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5)),
-                  actions: [
-                    Column(
-                      children: [
-                        Form(
-                          child: TextFormField(
-                            maxLines: 5,
-                            decoration: const InputDecoration(
-                              hintText: "Drop your comment",
-                            ),
-                          ),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            IconButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              icon: const Icon(
-                                Icons.cancel_outlined,
-                                size: 40,
-                              ),
-                            ),
-                            IconButton(
-                              onPressed: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return const Center(
-                                      child: CircularProgressIndicator(),
-                                    );
-                                  },
-                                );
-                              },
-                              icon: const Icon(
-                                Icons.send_rounded,
-                                size: 40,
-                              ),
-                            )
-                          ],
-                        )
-                      ],
-                    )
-                  ],
-                );
-              },
-            );
+            _sendEmail;
+
+            // showDialog(
+            //   context: context,
+            //   builder: (context) {
+            //     return AlertDialog(
+            //       shape: RoundedRectangleBorder(
+            //           borderRadius: BorderRadius.circular(5)),
+            //       actions: [
+            //         Column(
+            //           children: [
+            //             Form(
+            //               child: TextFormField(
+            //                 maxLines: 5,
+            //                 decoration: const InputDecoration(
+            //                   hintText: "Drop your comment",
+            //                 ),
+            //               ),
+            //             ),
+            //             Row(
+            //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //               children: [
+            //                 IconButton(
+            //                   onPressed: () {
+            //                     Navigator.of(context).pop();
+            //                   },
+            //                   icon: const Icon(
+            //                     Icons.cancel_outlined,
+            //                     size: 40,
+            //                   ),
+            //                 ),
+            //                 IconButton(
+            //                   onPressed: () {
+            //                     showDialog(
+            //                       context: context,
+            //                       builder: (context) {
+            //                         return const Center(
+            //                           child: CircularProgressIndicator(),
+            //                         );
+            //                       },
+            //                     );
+            //                   },
+            //                   icon: const Icon(
+            //                     Icons.send_rounded,
+            //                     size: 40,
+            //                   ),
+            //                 )
+            //               ],
+            //             )
+            //           ],
+            //         )
+            //       ],
+            //     );
+            //   },
+            // );
           },
           elevation: 10,
           shape: const CircleBorder(),
           backgroundColor: const Color.fromARGB(255, 239, 236, 236),
           child: const Icon(
-            Icons.message,
+            Icons.outgoing_mail,
             color: Color.fromARGB(255, 14, 1, 69),
           ),
         ),
